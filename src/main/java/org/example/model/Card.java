@@ -34,6 +34,11 @@ public class Card implements HasID {
     }
 
     @Override
+    public void setId(int andIncrement) {
+        this.card_id = andIncrement;
+    }
+
+    @Override
     public String toString() {
         return "Card ID=" + card_id + ", Current Points=" + currentPoints;
     }

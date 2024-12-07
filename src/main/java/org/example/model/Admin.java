@@ -15,9 +15,9 @@ public class Admin extends Person {
      * The role of the administrator.
      */
 
-
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
     /**
      * Constructs a new {@code Admin} with the specified ID, age, name, and role.
@@ -31,9 +31,14 @@ public class Admin extends Person {
         this.role = role;
     }
 
-    public Admin(int age, String name) {
-        super(age, name);
-    }
+//    public Admin(int age, String name, Role role, Integer ID) {
+//        super(age, name);
+//        this.role = role;
+//        this.ID = ID;
+//    }
+
+
+
 
     public Admin() {
         super();
@@ -64,6 +69,8 @@ public class Admin extends Person {
      */
     @Override
     public String toString() {
-        return super.toString() + ", Role: " + role;
+        return super.toString() + ", Role: " + role + '\n';
     }
+
+
 }

@@ -16,6 +16,7 @@ abstract class Person implements HasID {
     /**
      * The unique identifier for this person.
      */
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer ID;
@@ -117,5 +118,11 @@ abstract class Person implements HasID {
     @Override
     public String toString() {
         return "ID: " + ID + ", Age: " + age + ", Name: " + name;
+    }
+
+
+    @Override
+    public void setId(int andIncrement) {
+        this.ID = andIncrement; // Assign the provided ID value
     }
 }

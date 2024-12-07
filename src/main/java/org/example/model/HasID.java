@@ -19,4 +19,6 @@ public interface HasID extends Serializable {
      * @return the unique ID of the object
      */
     Integer getId();
+
+    void setId(int andIncrement);
 }

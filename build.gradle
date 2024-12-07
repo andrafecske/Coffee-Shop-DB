@@ -10,14 +10,20 @@ repositories {
 }
 
 dependencies {
+    // JUnit 5 dependencies
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    // https://mvnrepository.com/artifact/org.postgresql/postgresql
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
- //https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
+
+    // Hibernate
     implementation group: 'org.hibernate.orm', name: 'hibernate-core', version: '6.5.2.Final'
 
+    // H2 Database (for in-memory DB testing)
+    testImplementation 'com.h2database:h2:2.2.224'
+
+    // PostgreSQL (if you're using this for production)
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
 }
+
 
 test {
     useJUnitPlatform()

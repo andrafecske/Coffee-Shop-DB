@@ -16,6 +16,7 @@ public interface IRepository<T> {
      * Creates a new entity in the repository.
      *
      * @param entity The entity to be created in the repository.
+     * @return
      */
     void create(T entity);
     /**

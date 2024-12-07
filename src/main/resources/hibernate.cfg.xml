@@ -27,6 +27,9 @@
         <mapping class="org.example.model.Food"></mapping>
         <mapping class="org.example.model.Product"></mapping>
         <mapping class="org.example.model.Coffee"></mapping>
+        <mapping class="org.example.model.Order"></mapping>
+        <mapping class="org.example.model.OfferOrder"></mapping>
+        <mapping class="org.example.model.Offer"></mapping>
 
 
     </session-factory>

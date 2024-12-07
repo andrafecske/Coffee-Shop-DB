@@ -7,7 +7,8 @@ import jakarta.persistence.*;
  * The {@code Product} class represents a product with a unique ID, price, reward points, and name.
  * This class implements the {@code HasID} interface, providing the method to retrieve the unique ID of the product.
  */
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Product implements HasID {
 
     /**
@@ -119,6 +120,11 @@ public class Product implements HasID {
     @Override
     public Integer getId() {
         return ID;
+    }
+
+    @Override
+    public void setId(int andIncrement) {
+        this.ID+=andIncrement;
     }
 
     public String toStringPretty(){
