@@ -40,7 +40,7 @@ public class Order implements HasID {
     /**
      * The list of products included in the order.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "order_products",
             joinColumns = @JoinColumn(name = "order_id"),

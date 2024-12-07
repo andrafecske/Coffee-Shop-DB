@@ -4,6 +4,7 @@ import org.example.Controller.CoffeeShopController;
 import org.example.Utils.FoodType;
 import org.example.model.Coffee;
 import org.example.model.Food;
+import org.example.model.Offer;
 import org.example.model.Order;
 
 import java.util.ArrayList;
@@ -88,26 +89,26 @@ public class ClientUI {
                     break;
 
                 case "6":
-//                    viewPoints();
-//                    Integer offerID=0;
-//                    System.out.println("Here are the offers you can afford, enter the name of the one you want to use:");
-//                    coffeeShopController.listAllOffersClients(id);
-//                    String offerName = scanner.nextLine();
-//                    List<Offer> offers = coffeeShopController.getAllOffers();
-//                    for(Offer offer: offers){
-//                        if(offer.getName().equals(offerName)){
-//                            offerID = offer.getId();
-//                            break;
-//                        }
-//                    }
-//                    if(offerID == 0)
-//                    {
-//                        System.out.println("Offer not found!");
-//                        break;
-//                    }
-//                    coffeeShopController.addOfferOrder(offerID, id);
-//                    System.out.println("Order added successfully!");
-//                    viewPoints();
+                    viewPoints();
+                    Integer offerID=0;
+                    System.out.println("Here are the offers you can afford, enter the name of the one you want to use:");
+                    coffeeShopController.listAllOffersClients(id);
+                    String offerName = scanner.nextLine();
+                    List<Offer> offers = coffeeShopController.getAllOffers();
+                    for(Offer offer: offers){
+                        if(offer.getName().equals(offerName)){
+                            offerID = offer.getId();
+                            break;
+                        }
+                    }
+                    if(offerID == 0)
+                    {
+                        System.out.println("Offer not found!");
+                        break;
+                    }
+                    coffeeShopController.addOfferOrder(offerID, id);
+                    System.out.println("Order added successfully!");
+                    viewPoints();
                     break;
 
                 case"7":

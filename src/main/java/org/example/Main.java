@@ -16,6 +16,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.List;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -41,8 +42,10 @@ public class Main {
         DBRepo<Food> foodDBRepo = new DBRepo<>(factory, Food.class);
         DBRepo<Coffee> coffeeDBRepo = new DBRepo<>(factory, Coffee.class);
         DBRepo<Order> orderDBRepo = new DBRepo<>(factory, Order.class);
+        DBRepo<Offer> offerDBRepo = new DBRepo<>(factory, Offer.class);
+        DBRepo<OfferOrder> offerOrderDBRepo = new DBRepo<>(factory, OfferOrder.class);
 
-        CoffeeShopService coffeeShopService = new CoffeeShopService(adminRepository, clientDBRepo, foodDBRepo, coffeeDBRepo, orderDBRepo);
+        CoffeeShopService coffeeShopService = new CoffeeShopService(adminRepository, clientDBRepo, foodDBRepo, coffeeDBRepo, orderDBRepo, offerDBRepo, offerOrderDBRepo);
         CoffeeShopController coffeeShopController = new CoffeeShopController(coffeeShopService);
 
         Scanner scanner = new Scanner(System.in);
@@ -52,6 +55,8 @@ public class Main {
 
         UI mainUI = new UI(coffeeShopController, adminUI, clientUI);
         mainUI.start();
+
+
 
         scanner.close();
 

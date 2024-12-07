@@ -4,18 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="made it work to add and retrieve admins from the database">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="made it work for clients to order">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Presentation/AdminUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Presentation/AdminUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Presentation/ClientUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Presentation/ClientUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Presentation/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Presentation/UI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Coffee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Coffee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Food.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Food.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Product.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Offer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Offer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/model/Order.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -165,7 +162,7 @@
       <workItem from="1733345531882" duration="1912000" />
       <workItem from="1733385917566" duration="12968000" />
       <workItem from="1733407992890" duration="5657000" />
-      <workItem from="1733476216463" duration="19438000" />
+      <workItem from="1733476216463" duration="23681000" />
     </task>
     <task id="LOCAL-00001" summary="Created the tables for some of the entities">
       <option name="closed" value="true" />
@@ -183,7 +180,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733570181722</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="made it work for clients to order">
+      <option name="closed" value="true" />
+      <created>1733581866268</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733581866268</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,6 +197,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Created the tables for some of the entities" />
     <MESSAGE value="made it work to add and retrieve admins from the database" />
-    <option name="LAST_COMMIT_MESSAGE" value="made it work to add and retrieve admins from the database" />
+    <MESSAGE value="made it work for clients to order" />
+    <option name="LAST_COMMIT_MESSAGE" value="made it work for clients to order" />
   </component>
 </project>

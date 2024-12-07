@@ -39,7 +39,7 @@ public class Coffee extends Product {
     public Coffee(Integer productID, int price, int points, String name, boolean hasCaffeine, MilkType milkType) {
         super(price, points, name);
         this.hasCaffeine = hasCaffeine;
-        this.MilkType = (org.example.Utils.MilkType) milkType;
+        this.MilkType = milkType;
     }
 
     public Coffee() {

@@ -489,6 +489,91 @@ public class CoffeeShopController {
         return clientOrders;
     }
 
+    //offer operations
+
+    /**
+     * Adds a new offer to the system.
+     *
+     * @param foodIds the list of food IDs included in the offer.
+     * @param coffeeIds the list of coffee IDs included in the offer.
+     * @param pointCost the point cost for the offer.
+     * @return the created offer.
+     */
+    public Offer addOffer(List<Integer> foodIds, List<Integer> coffeeIds, int pointCost, String name) {
+        return coffeeShopService.addOffer(foodIds, coffeeIds, pointCost, name);
+
+    }
+
+    /**
+     * Lists all offers available in the system.
+     */
+    public void listAllOffers() {
+        List<Offer> offers = coffeeShopService.getAllOffers();
+        if(offers.isEmpty()) {
+            System.out.println("No offer found");
+        }
+        else {
+            System.out.println("Offer list:");
+            for(Offer offer : offers) {
+                System.out.println(offer);
+            }
+        }
+    }
+
+
+    public void listAllOffersClients(Integer clientID) {
+        List<Offer> offers = coffeeShopService.getAllOffers();
+        Client client = coffeeShopService.getClientById(clientID);
+        if(offers.isEmpty()) {
+            System.out.println("No offer found");
+        }
+        else {
+            System.out.println("Offer list:");
+            for(Offer offer : offers) {
+                if(offer.pointCost < client.getCard().getCurrentPoints())
+                {System.out.println(offer.clientView());}
+            }
+        }
+    }
+
+    public List<Offer> getAllOffers(){
+        return coffeeShopService.getAllOffers();
+    }
+
+    /**
+     * Retrieves an offer by its ID.
+     *
+     * @param id the ID of the offer to retrieve.
+     * @return the offer with the specified ID.
+     */
+    public Offer getOfferById(int id) {
+        return coffeeShopService.getOfferById(id);
+    }
+
+    /**
+     * Deletes an offer from the system.
+     *
+     * @param offer the offer to be deleted.
+     */
+
+    public void deleteOffer(Offer offer) {
+        coffeeShopService.deleteOffer(offer);
+    }
+
+    //OFFER ORDER OPERATIONS
+
+    /**
+     * Adds an offer order for a client.
+     *
+     * @param offerId  the ID of the offer being ordered.
+     * @param clientId the ID of the client placing the order.
+     */
+    public void addOfferOrder(Integer offerId, Integer clientId){
+        coffeeShopService.addOfferOrder(offerId, clientId);
+        Offer offer = getOfferById(offerId);
+        removePoints(clientId, offer.getPointCost());
+    }
+
 
 
 

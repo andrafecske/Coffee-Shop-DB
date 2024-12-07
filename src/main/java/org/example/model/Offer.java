@@ -25,7 +25,7 @@ public class Offer implements HasID {
     /**
      * The list of products included in this offer.
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "offer_products",
             joinColumns = @JoinColumn(name = "offer_id"),

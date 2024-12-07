@@ -13,13 +13,17 @@ public class CoffeeShopService {
     private final IRepository<Food> foodRepo;
     private final IRepository<Coffee> coffeeRepo;
     private final IRepository<Order> orderRepo;
+    private final IRepository<Offer> offerRepo;
+    private final IRepository<OfferOrder> offerOrderRepo;
 
-    public CoffeeShopService(IRepository<Admin> adminRepo, IRepository<Client> clientRepo, IRepository<Food> foodRepo, IRepository<Coffee> coffeeRepo, IRepository<Order> orderRepo) {
+    public CoffeeShopService(IRepository<Admin> adminRepo, IRepository<Client> clientRepo, IRepository<Food> foodRepo, IRepository<Coffee> coffeeRepo, IRepository<Order> orderRepo, IRepository<Offer> offerRepo, IRepository<OfferOrder> offerOrderRepo) {
         this.adminRepo = adminRepo;
         this.clientRepo = clientRepo;
         this.foodRepo = foodRepo;
         this.coffeeRepo = coffeeRepo;
         this.orderRepo = orderRepo;
+        this.offerRepo = offerRepo;
+        this.offerOrderRepo = offerOrderRepo;
     }
 
 
@@ -447,8 +451,103 @@ public class CoffeeShopService {
         orderRepo.delete(order.getId());
     }
 
+    //OFFER OPERATIONS
 
 
+    /**
+     * Creates and adds a new {@link Offer} to the repository based on specified food and coffee IDs, along with a point cost.
+     * <p>
+     * This method generates a unique offer ID and assembles a list of products by retrieving
+     * {@link Food} and {@link Coffee} items from their respective IDs. These products are then
+     * grouped into a new {@link Offer} with the specified point cost, and the offer is stored in the repository.
+     * </p>
+     *
+     * @param foodIds   a list of {@code Integer} IDs representing the food items to be included in the offer.
+     * @param coffeeIds a list of {@code Integer} IDs representing the coffee items to be included in the offer.
+     * @param pointCost an {@code int} representing the point cost of the offer.
+     * @return the newly created {@link Offer} object.
+     */
+    public Offer addOffer(List<Integer> foodIds, List<Integer> coffeeIds, int pointCost, String name) {
+
+        List<Product> products = new ArrayList<>();
+        for (Integer foodID : foodIds) {
+            Food food = getFoodById(foodID);
+            products.add(food);
+        }
+        for (Integer coffeeID : coffeeIds) {
+            Coffee coffee = getCoffeeById(coffeeID);
+            products.add(coffee);
+        }
+        Offer offer = new Offer(products, pointCost, name);
+        offerRepo.create(offer);
+        return offer;
+    }
+
+    /**
+     * Retrieves an {@link Offer} from the repository by its ID.
+     * <p>
+     * This method calls the repository's read method to fetch the offer corresponding to the given ID.
+     * If the offer exists, it will be returned; otherwise, {@code null} will be returned.
+     * </p>
+     *
+     * @param id the ID of the offer to be retrieved.
+     * @return the {@link Offer} with the specified ID, or {@code null} if not found.
+     */
+    public Offer getOfferById(Integer id) {
+        return offerRepo.read(id);
+    }
+
+    /**
+     * Retrieves all {@link Offer} objects from the repository.
+     * <p>
+     * This method calls the repository's getAll method to fetch a list of all available offers.
+     * </p>
+     *
+     * @return a list of all {@link Offer} objects in the repository.
+     */
+    public List<Offer> getAllOffers() {
+        return offerRepo.getAll();
+    }
+
+    /**
+     * Deletes a specified {@link Offer} from the repository.
+     * <p>
+     * This method first checks if the provided offer is {@code null}. If it is not {@code null},
+     * it proceeds to delete the offer from the repository using its ID.
+     * </p>
+     *
+     * @param offer the {@link Offer} to be deleted. If the offer is {@code null}, it will not be deleted.
+     */
+    public void deleteOffer(Offer offer) {
+        if (offer == null) {
+            System.out.println("Offer is null");
+        }
+        offerRepo.delete(offer.getId());
+    }
+
+    //OFFER ORDER OPERATIONS
+    /**
+     * Creates an {@link OfferOrder} by associating a {@link Client} with an {@link Offer}.
+     * <p>
+     * This method checks if the specified {@link Client} has enough points to purchase the specified {@link Offer}.
+     * If the client has sufficient points, an {@link OfferOrder} is created, the points are deducted from the client's card,
+     * and the offer order is stored in the repository. Otherwise, a message is printed indicating insufficient points.
+     * </p>
+     *
+     * @param offerId the ID of the {@link Offer} to be purchased.
+     * @param clientId the ID of the {@link Client} making the purchase.
+     * @return the created {@link OfferOrder} if the client has enough points; {@code null} if the points are insufficient.
+     */
+
+    public OfferOrder addOfferOrder (Integer offerId, Integer clientId){
+        Offer offer = getOfferById(offerId);
+        Client client = getClientById(clientId);
+
+        OfferOrder offerOrder = new OfferOrder(client, offer);
+        client.getCard().setCurrentPoints(client.getCard().getCurrentPoints()-offer.pointCost);
+        offerOrderRepo.create(offerOrder);
+        return offerOrder;
+    }
 
 
 }
