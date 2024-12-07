@@ -70,6 +70,69 @@ public class AdminUI {
     }
 
 
+    public void startFoodManager(){
+        boolean continueLoop = true;
+
+        while(continueLoop){
+            System.out.println("""
+                     Coffee Shop Management System
+                     1. Food Management
+                     2. View all orders ever
+                     3. Exit
+                     """);
+            System.out.print("Choose a category: ");
+            String mainOption = scanner.nextLine();
+            switch (mainOption) {
+                case "1":
+                    manageFood(scanner);
+                    break;
+                case "2":
+                    viewOrders();
+                    break;
+                case "3":
+                    continueLoop = false;
+                    System.out.println("Exiting... Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+        }
+
+    }
+
+    public void startClientManager() {
+        boolean continueLoop = true;
+        while (continueLoop) {
+            System.out.println("""
+                    Coffee Shop Management System
+                    1. Client management
+                    2. View all orders ever
+                    3. Exit
+                    """);
+            System.out.print("Choose a category: ");
+            String mainOption = scanner.nextLine();
+            switch (mainOption) {
+                case "1":
+                    manageClients(scanner);
+                    break;
+                case "2":
+                    viewOrders();
+                    break;
+                case "3":
+                    continueLoop = false;
+                    System.out.println("Exiting... Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+        }
+    }
+
+
     //admin management operations
 
     private void manageAdmins(Scanner scanner) {

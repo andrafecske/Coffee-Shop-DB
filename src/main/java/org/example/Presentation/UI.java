@@ -65,7 +65,14 @@ public class UI {
             Admin admin = coffeeShopController.getAdminById(id);
             if (admin != null && admin.getName().equalsIgnoreCase(name)) {
                 System.out.println("Welcome, Admin " + name + "!");
-                adminUI.start();
+                if (admin.getRole().equals(Role.Manager))
+                    adminUI.start();  // Run the Admin-specific UI operations
+                else if (admin.getRole().equals(Role.ProductManager))
+                    adminUI.startFoodManager();
+                else if (admin.getRole().equals(Role.ClientManager))
+                    adminUI.startClientManager();
+
+                System.out.println("You have been logged out.");
                 return;
             }
 
