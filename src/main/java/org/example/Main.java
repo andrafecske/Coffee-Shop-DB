@@ -2,11 +2,13 @@ package org.example;
 
 import org.example.Controller.CoffeeShopController;
 import org.example.Presentation.AdminUI;
+import org.example.Presentation.ClientUI;
 import org.example.Presentation.UI;
 import org.example.Repository.DBRepo;
 import org.example.Repository.InMemoryRepository;
+import org.example.Utils.FoodType;
 import org.example.Utils.Role;
-import org.example.model.Admin;
+import org.example.model.*;
 import org.example.service.CoffeeShopService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -35,20 +37,27 @@ public class Main {
 
         DBRepo<Admin> adminRepository = new DBRepo<>(factory, Admin.class);
         InMemoryRepository<Admin> adminInMemoryRepository= new InMemoryRepository<Admin>();
+        DBRepo<Client> clientDBRepo = new DBRepo<>(factory, Client.class);
+        DBRepo<Food> foodDBRepo = new DBRepo<>(factory, Food.class);
+        DBRepo<Coffee> coffeeDBRepo = new DBRepo<>(factory, Coffee.class);
+        DBRepo<Order> orderDBRepo = new DBRepo<>(factory, Order.class);
 
-        CoffeeShopService coffeeShopService = new CoffeeShopService(adminRepository);
+        CoffeeShopService coffeeShopService = new CoffeeShopService(adminRepository, clientDBRepo, foodDBRepo, coffeeDBRepo, orderDBRepo);
         CoffeeShopController coffeeShopController = new CoffeeShopController(coffeeShopService);
 
-        Admin admin1 = new Admin(12, "iulia", Role.ClientManager);
-        coffeeShopController.addAdmin(admin1);
         Scanner scanner = new Scanner(System.in);
 
         AdminUI adminUI = new AdminUI(coffeeShopController, scanner);
+        ClientUI clientUI = new ClientUI(coffeeShopController, scanner);
 
-        UI mainUI = new UI(coffeeShopController, adminUI);
+        UI mainUI = new UI(coffeeShopController, adminUI, clientUI);
         mainUI.start();
 
         scanner.close();
+
+
+
+
 
 
 

@@ -3,16 +3,20 @@ package org.example.Presentation;
 import org.example.Controller.CoffeeShopController;
 import org.example.Utils.Role;
 import org.example.model.Admin;
+import org.example.model.Client;
+import org.hibernate.annotations.Check;
 
 import java.util.Scanner;
 
 public class UI {
     private final CoffeeShopController coffeeShopController;
     private final AdminUI adminUI;
+    private final ClientUI clientUI;
 
-    public UI(CoffeeShopController coffeeShopController, AdminUI adminUI) {
+    public UI(CoffeeShopController coffeeShopController, AdminUI adminUI, ClientUI clientUI) {
         this.coffeeShopController = coffeeShopController;
         this.adminUI = adminUI;
+        this.clientUI = clientUI;
     }
 
     public void start() {
@@ -65,15 +69,15 @@ public class UI {
                 return;
             }
 
-            // Check for Client login
-//            Client client = coffeeShopController.getClientById(id);
-//            if (client != null && client.getName().equalsIgnoreCase(name)) {
-//                System.out.println("Welcome, Client " + name + "!");
-//                clientUI.start(id);  // Run the Client-specific UI operations
-//
-//                System.out.println("You have been logged out.");
-//                return;
-//            }
+            //check client login
+            Client client = coffeeShopController.getClientById(id);
+            if (client != null && client.getName().equalsIgnoreCase(name)) {
+                System.out.println("Welcome, Client " + name + "!");
+                clientUI.start(id);  // Run the Client-specific UI operations
+
+                System.out.println("You have been logged out.");
+                return;
+            }
 
             System.out.println("Login failed. No admin or client found with the provided name and ID.");
         } catch (Exception e) {

@@ -21,16 +21,19 @@ public class Product implements HasID {
     /**
      * The reward points associated with this product.
      */
+    @Column(nullable = false)
     protected int points;
 
     /**
      * The price of this product.
      */
+    @Column(nullable = false)
     protected int price;
 
     /**
      * The name of this product.
      */
+    @Column(nullable = false)
     protected String name;
 
     /**

@@ -9,7 +9,7 @@ public class Client extends Person {
     /**
      * The card ID associated with this client.
      */
-    @OneToOne(fetch = FetchType.EAGER)  // Use @ManyToOne or @OneToOne depending on the relationship
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL) // Ensure all operations are cascaded to Card  // Cascade persist to save the card automatically
     @JoinColumn(name = "card_id")  // Specifies the foreign key column in the Clients table
     private Card card;
 
@@ -22,6 +22,7 @@ public class Client extends Person {
      */
     public Client(int age, String name) {
         super(age, name);
+        this.card = new Card();
     }
 
     public Client() {

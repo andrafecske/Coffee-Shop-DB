@@ -9,7 +9,6 @@ import java.util.List;
  * It includes additional properties specific to food items, such as the food type.
  */
 @Entity
-@Table(name = "foods")
 public class Food extends Product {
 
     /**

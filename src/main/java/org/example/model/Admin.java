@@ -31,11 +31,11 @@ public class Admin extends Person {
         this.role = role;
     }
 
-//    public Admin(int age, String name, Role role, Integer ID) {
-//        super(age, name);
-//        this.role = role;
-//        this.ID = ID;
-//    }
+    public Admin(int age, String name, Role role, Integer ID) {
+        super(age, name);
+        this.role = role;
+        this.ID = ID;
+    }
 
 
 

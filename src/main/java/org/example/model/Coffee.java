@@ -12,7 +12,6 @@ import org.example.model.Product;
  * It includes additional properties specific to coffee, such as caffeine content and milk type.
  */
 @Entity
-@Table(name = "coffees")
 public class Coffee extends Product {
 
     /**
@@ -45,6 +44,14 @@ public class Coffee extends Product {
 
     public Coffee() {
         super();
+    }
+
+    public Coffee(int price, int points, String name, boolean containsCaffeine, org.example.Utils.MilkType milkType) {
+        this.price = price;
+        this.points = points;
+        this.name = name;
+        this.hasCaffeine = containsCaffeine;
+        this.MilkType = (org.example.Utils.MilkType) milkType;
     }
 
     /**
