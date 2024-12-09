@@ -3,7 +3,7 @@ package org.example.Repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-
+import org.example.Exceptions.DataBaseException;
 import org.example.model.HasID;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class DBRepo<T extends HasID> implements IRepository<T> {
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
-            throw e;
+            throw new DataBaseException("Error creating entity in the database.", e);
         } finally {
             session.close();
         }
@@ -43,7 +43,11 @@ public class DBRepo<T extends HasID> implements IRepository<T> {
         Session session = sessionFactory.openSession();
         try {
             return session.get(entityType, id); // Fetch the entity by ID
-        } finally {
+        } catch(Exception e){
+            throw new DataBaseException("Error reading entity in the database.", e);
+        }
+
+        finally {
             session.close();
         }
     }
@@ -59,7 +63,7 @@ public class DBRepo<T extends HasID> implements IRepository<T> {
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
-            throw e;
+            throw new DataBaseException("Error updating entity in the database", e);
         } finally {
             session.close();
         }
@@ -77,7 +81,7 @@ public class DBRepo<T extends HasID> implements IRepository<T> {
             transaction.commit();
         } catch (Exception e) {
             transaction.rollback();
-            throw e;
+            throw new DataBaseException("Error deleting entity in the database.", e);
         } finally {
             session.close();
         }
@@ -89,7 +93,10 @@ public class DBRepo<T extends HasID> implements IRepository<T> {
         try {
             String query = String.format("FROM %s", entityType.getSimpleName()); // HQL query
             return session.createQuery(query, entityType).getResultList(); // Retrieve all entities
-        } finally {
+        } catch(Exception e){
+            throw new DataBaseException("Error reading all the entities in the database.", e);
+        }
+        finally {
             session.close();
         }
     }

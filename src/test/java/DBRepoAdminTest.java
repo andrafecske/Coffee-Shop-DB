@@ -126,23 +126,32 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
     }
 
     @Test
-    void testFoodOperations() {
-        // --- Create Operation ---
-        // Create and persist food item
+    void testFoodAndCoffeeOperations() {
+        //food and coffee
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        // Create a new food item
+        // add operation
         Food food = new Food(15, 10, "Pizza", FoodType.MEAL);
         coffeeShopController.addFood(food);  // Assuming this method exists in your controller
         Integer foodId = food.getId();
         assertNotNull(foodId, "Food ID should not be null after persistence");
 
-        // Retrieve the food using its ID
         Food retrievedFood = foodRepository.read(foodId);
         assertNotNull(retrievedFood, "Food should not be null");
         assertEquals("Pizza", retrievedFood.getName());
         assertEquals(FoodType.MEAL, retrievedFood.getFoodType());
+
+        Coffee coffee = new Coffee(16, 20, "Capuccino", true ,MilkType.WHOLE);
+        coffeeShopController.addCoffee(coffee);
+        Integer coffeeId = coffee.getId();
+        assertNotNull(coffeeId, "Coffee ID should not be null after persistence");
+
+        Coffee retrievedCoffee = coffeeRepository.read(coffeeId);
+        assertNotNull(retrievedCoffee, "Coffee should not be null");
+        assertEquals("Capuccino", retrievedCoffee.getName());
+        assertEquals(MilkType.WHOLE, retrievedCoffee.getMilkType());
+
 
         transaction.commit();
 
@@ -184,6 +193,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         transaction.commit();
         session.close();
     }
+
 
 
 }
