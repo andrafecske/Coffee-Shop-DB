@@ -21,7 +21,9 @@ dependencies {
     testImplementation 'com.h2database:h2:2.2.224'
 
     // PostgreSQL (if you're using this for production)
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.2'
+
+   // implementation 'com.ongres.scram:client:2.1.0'
 }
 
 
