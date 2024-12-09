@@ -115,6 +115,10 @@ public class Product implements HasID {
         return price;
     }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     /**
      * Retrieves the unique identifier of this product, fulfilling the {@code HasID} interface contract.
      *

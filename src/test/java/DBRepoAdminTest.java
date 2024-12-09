@@ -3,6 +3,7 @@ import org.example.Controller.CoffeeShopController;
 import org.example.Repository.DBRepo;
 import org.example.Utils.Role;
 import org.example.model.*;
+import org.example.Utils.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.jupiter.api.BeforeEach;
@@ -123,5 +124,66 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         assertNull(deletedClient, "Client should be null after deletion");
         session.close();
     }
+
+    @Test
+    void testFoodOperations() {
+        // --- Create Operation ---
+        // Create and persist food item
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        // Create a new food item
+        Food food = new Food(15, 10, "Pizza", FoodType.MEAL);
+        coffeeShopController.addFood(food);  // Assuming this method exists in your controller
+        Integer foodId = food.getId();
+        assertNotNull(foodId, "Food ID should not be null after persistence");
+
+        // Retrieve the food using its ID
+        Food retrievedFood = foodRepository.read(foodId);
+        assertNotNull(retrievedFood, "Food should not be null");
+        assertEquals("Pizza", retrievedFood.getName());
+        assertEquals(FoodType.MEAL, retrievedFood.getFoodType());
+
+        transaction.commit();
+
+        // --- Update Operation ---
+        session = sessionFactory.openSession();
+        transaction = session.beginTransaction();
+
+        // Retrieve food to update
+        Food foodToUpdate = foodRepository.read(foodId);
+        assertNotNull(foodToUpdate, "Food should not be null before update");
+
+        // Update food details
+        foodToUpdate.setName("Burger");
+        foodToUpdate.setFoodType(FoodType.MEAL);
+        foodToUpdate.setPrice(18);  // Assuming price update is also part of the update
+
+        coffeeShopController.updateFood(foodToUpdate);  // Assuming this method exists in your controller
+
+        // Retrieve the food again to verify update
+        Food updatedFood = foodRepository.read(foodId);
+        assertNotNull(updatedFood, "Food should not be null after update");
+        assertEquals("Burger", updatedFood.getName());
+        assertEquals(FoodType.MEAL, updatedFood.getFoodType());
+        assertEquals(18, updatedFood.getPrice(), "Food price should be updated");
+
+        transaction.commit();
+
+        // --- Delete Operation ---
+        session = sessionFactory.openSession();
+        transaction = session.beginTransaction();
+
+        // Delete the food
+        coffeeShopController.deleteFood(foodToUpdate);  // Assuming this method exists in your controller
+
+        // Verify that the food is deleted
+        Food deletedFood = foodRepository.read(foodId);
+        assertNull(deletedFood, "Food should be null after deletion");
+
+        transaction.commit();
+        session.close();
+    }
+
 
 }
