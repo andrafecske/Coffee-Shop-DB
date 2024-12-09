@@ -334,7 +334,7 @@ public class AdminUI {
                     System.out.println("What is the offer's name?");
                     String name = scanner.nextLine();
                     Offer offer = controller.addOffer(foods, coffees, points, name);
-                    System.out.println("Offer added successfully!" + "\n" + offer);
+                    System.out.println("Offer added successfully!" + "\n" + offer + "Offer ID:" + offer.getId());
                     break;
 
                 case "3":
@@ -491,6 +491,7 @@ public class AdminUI {
 
             Client client = new Client(age, name); // Create Client object
             controller.addClient(client); // Add client using the controller
+            System.out.println("Client's ID: " + client.getId() );
 
         } catch (NumberFormatException e) {
             System.out.println("Invalid input! Please enter a valid numeric value for ID and Age.");
@@ -717,9 +718,6 @@ public class AdminUI {
     //coffee management
     private void addCoffee(Scanner scanner) {
         try {
-            System.out.println("Enter Coffee ID:");
-            int id = Integer.parseInt(scanner.nextLine()); // Parse Coffee ID
-
             System.out.println("Enter price:");
             int price = Integer.parseInt(scanner.nextLine()); // Parse price
 
