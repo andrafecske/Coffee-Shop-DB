@@ -20,7 +20,7 @@
 
 
 
-        <mapping class="org.example.model.Person"></mapping>
+<!--        <mapping class="org.example.model.Person"></mapping>-->
         <mapping class="org.example.model.Admin"></mapping>
         <mapping class="org.example.model.Client"></mapping>
         <mapping class="org.example.model.Card"></mapping>
