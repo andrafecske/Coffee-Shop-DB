@@ -207,9 +207,17 @@ public class CoffeeShopController {
      * @param client the client to be deleted.
      */
     public void deleteClient(Client client) {
-        coffeeShopService.deleteClient(client);
-        //System.out.println("Client deleted successfully");
+        try {
+            coffeeShopService.deleteClient(client);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     /**
      * Updates the details of an existing client.
@@ -217,8 +225,19 @@ public class CoffeeShopController {
      * @param client the client with updated details.
      */
     public void updateClient(Client client) {
-        coffeeShopService.updateClient(client);
+        try {
+            coffeeShopService.updateClient(client);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     //food operations
 
@@ -241,12 +260,16 @@ public class CoffeeShopController {
 
     public void addFood(Food food) {
         try {
-            coffeeShopService.addFood(food); // Call service method to add food
-            System.out.println("Food added");
+            coffeeShopService.addFood(food);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error adding food: " + e.getMessage());
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
 
     /**
@@ -283,8 +306,17 @@ public class CoffeeShopController {
      * @param food the food to be deleted.
      */
     public void deleteFood(Food food) {
-        coffeeShopService.deleteFood(food);
+        try {
+            coffeeShopService.deleteFood(food);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     /**
      * Updates the details of an existing food item.
@@ -292,20 +324,35 @@ public class CoffeeShopController {
      * @param food the food with updated details.
      */
     public void updateFood(Food food) {
-        coffeeShopService.updateFood(food);
+        try {
+            coffeeShopService.updateFood(food);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     //coffee operations
 
 
     public void addCoffee(Coffee coffee) {
         try {
-            coffeeShopService.addCoffee(coffee); // Call service method to add coffee
-            System.out.println("Coffee added");
+            coffeeShopService.addCoffee(coffee);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error adding coffee: " + e.getMessage());
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
 
     /**
@@ -329,18 +376,34 @@ public class CoffeeShopController {
      * @param coffee the coffee to be deleted.
      */
     public void deleteCoffee(Coffee coffee) {
-        coffeeShopService.deleteCoffee(coffee);
-        System.out.println("Coffee deleted successfully");
+        try {
+            coffeeShopService.deleteCoffee(coffee);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
     /**
      * Updates the details of an existing coffee.
      *
      * @param coffee the coffee with updated details.
      */
     public void updateCoffee(Coffee coffee) {
-        coffeeShopService.updateCoffee(coffee);
-        System.out.println("Coffee updated successfully");
+        try {
+            coffeeShopService.updateCoffee(coffee);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     /**
      * Retrieves a coffee by its ID.
