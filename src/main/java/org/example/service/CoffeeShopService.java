@@ -700,7 +700,7 @@ public class CoffeeShopService {
      * @param clientId the ID of the {@link Client} making the purchase.
      * @return the created {@link OfferOrder} if the client has enough points; {@code null} if the points are insufficient.
      */
-    public OfferOrder addOfferOrder(Integer offerId, Integer clientId) {
+    public void addOfferOrder(Integer offerId, Integer clientId) {
         try {
             Offer offer = getOfferById(offerId);
             Client client = getClientById(clientId);
@@ -724,7 +724,7 @@ public class CoffeeShopService {
             OfferOrder offerOrder = new OfferOrder(client, offer);
             offerOrderRepo.create(offerOrder);
 
-            return offerOrder;
+            //return offerOrder;
         } catch (Exception e) {
             throw new DataBaseException("Error during the offer redemption.", e);
         }

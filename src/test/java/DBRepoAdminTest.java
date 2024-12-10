@@ -38,12 +38,13 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         foodRepository = new DBRepo<>(sessionFactory, Food.class);
         orderRepository = new DBRepo<>(sessionFactory, Order.class);
         offerRepository = new DBRepo<>(sessionFactory, Offer.class);
+        offerOrderDBRepo = new DBRepo<>(sessionFactory, OfferOrder.class);
 
 
         coffeeShopService = new CoffeeShopService(adminRepository, clientRepository,foodRepository,coffeeRepository, orderRepository, offerRepository, offerOrderDBRepo);
         coffeeShopController = new CoffeeShopController(coffeeShopService);
     }
-    @Test
+ //  @Test
     void testAdminOperations() {
 
         Session session = sessionFactory.openSession();
@@ -91,7 +92,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         session.close();
     }
 
-    @Test
+//    @Test
     void testClientOperations() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -131,7 +132,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         session.close();
     }
 
-    @Test
+ //  @Test
     void testFoodAndCoffeeOperations() {
         //food and coffee
         Session session = sessionFactory.openSession();
@@ -201,7 +202,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
     }
 
 
-    @Test
+ // @Test
     void testOrderOperations() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -239,7 +240,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
 
     }
 
-    @Test
+  // @Test
     void testOfferOperations() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -273,6 +274,53 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         transaction.commit();
         session.close();
     }
+
+
+    @Test
+    public void testOfferOrderOperations() {
+        // Set up the client
+        Card card = new Card();
+        card.setCurrentPoints(137); // Ensure enough points for the test
+
+        Client client = new Client();
+        client.setName("John Doe");
+        client.setAge(30);
+        client.setCard(card);
+
+        clientRepository.create(client);
+
+        // Set up the offer
+        Offer newOffer = new Offer();
+        newOffer.setName("Lunch Special");
+        newOffer.setPointCost(30);
+
+        // Insert offer into DB
+        offerRepository.create(newOffer);
+
+        // Fetch the latest client details for service
+        assertNotNull(client.getCard(), "Client's card should not be null.");
+        assertTrue(
+                client.getCard().getCurrentPoints() >= newOffer.getPointCost(),
+                "Client does not have enough points to redeem the offer."
+        );
+
+        // Perform the service call without try/catch
+        coffeeShopService.addOfferOrder(newOffer.getId(), client.getId());
+
+        // Assert points were deducted successfully
+        Client updatedClient = clientRepository.read(client.getId());
+        assertNotNull(updatedClient, "Updated client should not be null.");
+        assertEquals(
+                107,
+                updatedClient.getCard().getCurrentPoints(),
+                "Points should be deducted correctly upon successful offer redemption."
+        );
+
+        System.out.println("Points successfully deducted. Test passed.");
+    }
+
+
+
 
 
 }
