@@ -714,6 +714,7 @@ public class CoffeeShopController {
     public void listAllOffersClients(Integer clientID) {
         List<Offer> offers = coffeeShopService.getAllOffers();
         Client client = coffeeShopService.getClientById(clientID);
+        List<Offer> availableOffers = new ArrayList<Offer>();
         if(offers.isEmpty()) {
             System.out.println("No offer found");
         }
@@ -721,7 +722,16 @@ public class CoffeeShopController {
             System.out.println("Offer list:");
             for(Offer offer : offers) {
                 if(offer.pointCost < client.getCard().getCurrentPoints())
-                {System.out.println(offer.clientView());}
+                    availableOffers.add(offer);
+            }
+        }
+        if(availableOffers.isEmpty()) {
+            System.out.println("You cannot afford any offers. Press enter to proceed.");
+        }
+        else
+        {
+            for(Offer offer : availableOffers) {
+                System.out.println(offer);
             }
         }
     }

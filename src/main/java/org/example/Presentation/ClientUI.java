@@ -95,12 +95,14 @@ public class ClientUI {
                     coffeeShopController.listAllOffersClients(id);
                     String offerName = scanner.nextLine();
                     List<Offer> offers = coffeeShopController.getAllOffers();
+
                     for(Offer offer: offers){
                         if(offer.getName().equals(offerName)){
                             offerID = offer.getId();
                             break;
                         }
                     }
+
                     if(offerID == 0)
                     {
                         System.out.println("Offer not found!");
