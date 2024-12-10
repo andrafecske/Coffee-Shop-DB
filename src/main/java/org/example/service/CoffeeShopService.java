@@ -508,12 +508,22 @@ public class CoffeeShopService {
      * @param order the {@link Order} object containing the updated information.
      */
     public void deleteOrder(Order order) {
-        if (order == null) {
-            System.out.println("Order is null");
-            return;
+        try {
+            if (order == null) {
+                throw new ValidationException("Order cannot be null.", null);
+            }
+
+            orderRepo.delete(order.getId());
+            System.out.println("Order deleted successfully.");
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Order with ID " + order.getId() + " not found. Unable to delete.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while deleting the order from the database.", e);
         }
-        orderRepo.delete(order.getId());
     }
+
 
     //OFFER OPERATIONS
 
