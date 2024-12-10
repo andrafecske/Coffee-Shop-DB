@@ -10,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.example.service.CoffeeShopService;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DBRepoAdminTest extends BaseIntegrationTest {
@@ -22,6 +25,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
     private DBRepo<OfferOrder> offerOrderDBRepo;
 
 
+
     private CoffeeShopService coffeeShopService;
     private CoffeeShopController coffeeShopController;
 
@@ -32,6 +36,8 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         clientRepository = new DBRepo<>(sessionFactory, Client.class);
         coffeeRepository = new DBRepo<>(sessionFactory, Coffee.class);
         foodRepository = new DBRepo<>(sessionFactory, Food.class);
+        orderRepository = new DBRepo<>(sessionFactory, Order.class);
+        offerRepository = new DBRepo<>(sessionFactory, Offer.class);
 
 
         coffeeShopService = new CoffeeShopService(adminRepository, clientRepository,foodRepository,coffeeRepository, orderRepository, offerRepository, offerOrderDBRepo);
@@ -193,7 +199,6 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         transaction.commit();
         session.close();
     }
-
 
 
 }

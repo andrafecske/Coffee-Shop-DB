@@ -567,13 +567,14 @@ public class CoffeeShopController {
      *
      * @param offerId  the ID of the offer being ordered.
      * @param clientId the ID of the client placing the order.
+     * @return
      */
+
     public void addOfferOrder(Integer offerId, Integer clientId){
         coffeeShopService.addOfferOrder(offerId, clientId);
         Offer offer = getOfferById(offerId);
         removePoints(clientId, offer.getPointCost());
     }
-
 
 
 

@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="adjusted the admin UI">
+    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="added coffee tests and one type of exception">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Presentation/AdminUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Presentation/AdminUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Presentation/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Presentation/UI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DBRepoAdminTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DBRepoAdminTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +18,31 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MAP-BD" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="MAP-BD" type="f1a62948:ProjectNode" />
+                <item name="Run Configurations" type="7b0102dc:RunConfigurationsNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -59,28 +84,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Gradle.MAP-BD [:org.example.Main.main()].executor": "Run",
-    "Gradle.MAP-BD [dependencies].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example/Repository/DBrepositories",
-    "last_opened_file_path": "C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Problems",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Gradle.Build MAP-BD.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.MAP-BD [:org.example.Main.main()].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.MAP-BD [dependencies].executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.tests.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example/Repository/DBrepositories&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Coding\facultate\MAP\proiect MAP BD\MAP-BD\src\main\java\org\example" />
@@ -130,6 +158,23 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="tests" type="JUnit" factoryName="JUnit">
+      <module name="MAP-BD.test" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="corretto-17" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="DBRepoAdminTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Gradle.MAP-BD [dependencies]" />
+      <item itemvalue="JUnit.tests" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -157,6 +202,8 @@
       <workItem from="1733385917566" duration="12968000" />
       <workItem from="1733407992890" duration="5657000" />
       <workItem from="1733476216463" duration="24259000" />
+      <workItem from="1733730037351" duration="24434000" />
+      <workItem from="1733770905770" duration="560000" />
     </task>
     <task id="LOCAL-00001" summary="Created the tables for some of the entities">
       <option name="closed" value="true" />
@@ -198,7 +245,39 @@
       <option name="project" value="LOCAL" />
       <updated>1733586744233</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="made tests for admin and client operations">
+      <option name="closed" value="true" />
+      <created>1733743080834</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733743080834</updated>
+    </task>
+    <task id="LOCAL-00007" summary="added some changes to admin UI">
+      <option name="closed" value="true" />
+      <created>1733743523258</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733743523258</updated>
+    </task>
+    <task id="LOCAL-00008" summary="added food tests">
+      <option name="closed" value="true" />
+      <created>1733744971301</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733744971301</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added coffee tests and one type of exception">
+      <option name="closed" value="true" />
+      <created>1733762492031</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733762492031</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,6 +289,10 @@
     <MESSAGE value="made it work for clients to order" />
     <MESSAGE value="made it work to add offer orders" />
     <MESSAGE value="adjusted the admin UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjusted the admin UI" />
+    <MESSAGE value="made tests for admin and client operations" />
+    <MESSAGE value="added some changes to admin UI" />
+    <MESSAGE value="added food tests" />
+    <MESSAGE value="added coffee tests and one type of exception" />
+    <option name="LAST_COMMIT_MESSAGE" value="added coffee tests and one type of exception" />
   </component>
 </project>
