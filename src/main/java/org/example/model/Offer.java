@@ -133,7 +133,8 @@ public class Offer implements HasID {
 
         return "offer name " + name + "\n" +
                 "products: \n" + productsString + "\n" +
-                "pointCost = " + pointCost + "\n";
+                "pointCost = " + pointCost + "\n" +
+                "id = " + offerID + "\n";
     }
 
 
