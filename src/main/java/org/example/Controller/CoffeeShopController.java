@@ -711,30 +711,84 @@ public class CoffeeShopController {
     }
 
 
+//    public void listAllOffersClients(Integer clientID) {
+//        List<Offer> offers = coffeeShopService.getAllOffers();
+//        Client client = coffeeShopService.getClientById(clientID);
+//        List<Offer> availableOffers = new ArrayList<Offer>();
+//        if(offers.isEmpty()) {
+//            System.out.println("No offer found");
+//        }
+//        else {
+//            System.out.println("Offer list:");
+//            for(Offer offer : offers) {
+//                if(offer.pointCost < client.getCard().getCurrentPoints())
+//                    availableOffers.add(offer);
+//            }
+//        }
+//        if(availableOffers.isEmpty()) {
+//            System.out.println("You cannot afford any offers. Press enter to proceed.");
+//        }
+//        else
+//        {
+//            for(Offer offer : availableOffers) {
+//                System.out.println(offer);
+//            }
+//        }
+//    }
+
+//    public void listAllOffersClients(Integer clientID) {
+//        List<Offer> offers = coffeeShopService.getAllOffers();
+//        Client client = coffeeShopService.getClientById(clientID);
+//        if(offers.isEmpty()) {
+//            System.out.println("No offer found");
+//        }
+//        else {
+//            System.out.println("Offer list:");
+//            for(Offer offer : offers) {
+//                if(offer.pointCost < client.getCard().getCurrentPoints())
+//                {System.out.println(offer.clientView());}
+//            }
+//        }
+//    }
+
     public void listAllOffersClients(Integer clientID) {
         List<Offer> offers = coffeeShopService.getAllOffers();
         Client client = coffeeShopService.getClientById(clientID);
-        List<Offer> availableOffers = new ArrayList<Offer>();
-        if(offers.isEmpty()) {
-            System.out.println("No offer found");
+
+        if (client == null) {
+            System.out.println("Client not found.");
+            return;
         }
-        else {
-            System.out.println("Offer list:");
-            for(Offer offer : offers) {
-                if(offer.pointCost < client.getCard().getCurrentPoints())
-                    availableOffers.add(offer);
+
+        if (client.getCard() == null) {
+            System.out.println("Error: Client does not have a valid card.");
+            return;
+        }
+
+        List<Offer> availableOffers = new ArrayList<>();
+
+        if (offers == null || offers.isEmpty()) {
+            System.out.println("No offers found.");
+            return;
+        }
+
+        // Filter offers the client can afford based on points balance
+        for (Offer offer : offers) {
+            if (offer.getPointCost() <= client.getCard().getCurrentPoints()) {
+                availableOffers.add(offer);
             }
         }
-        if(availableOffers.isEmpty()) {
+
+        if (availableOffers.isEmpty()) {
             System.out.println("You cannot afford any offers. Press enter to proceed.");
-        }
-        else
-        {
-            for(Offer offer : availableOffers) {
+        } else {
+            System.out.println("Available Offers you can afford:");
+            for (Offer offer : availableOffers) {
                 System.out.println(offer);
             }
         }
     }
+
 
     public List<Offer> getAllOffers(){
         return coffeeShopService.getAllOffers();
@@ -783,38 +837,44 @@ public class CoffeeShopController {
      * @return
      */
 
-    public OfferOrder addOfferOrder(Integer offerId, Integer clientId) {
-        try {
-            Offer offer = getOfferById(offerId);
-
-            if (offer == null) {
-                throw new EntityNotFoundException("Offer not found with ID: " + offerId, null);
-            }
-
-            if (clientId == null) {
-                throw new ValidationException("Client ID cannot be null", null);
-            }
-
-            // Handle points validation explicitly through logic
-            if (coffeeShopService.hasEnoughPoints(clientId, offer.getPointCost())) {
-                return coffeeShopService.addOfferOrder(offerId, clientId);
-            } else {
-                throw new BusinessLogicException("Client does not have enough points to redeem the offer.", null);
-            }
-
-        } catch (ValidationException e) {
-            System.out.println("Validation Error: " + e.getMessage());
-        } catch (EntityNotFoundException e) {
-            System.out.println("Entity Not Found Error: " + e.getMessage());
-        } catch (BusinessLogicException e) {
-            System.out.println("Business Logic Error: " + e.getMessage());
-        } catch (DataBaseException e) {
-            System.out.println("Database Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage());
-        }
-        return null;
+    public void addOfferOrder(Integer offerId, Integer clientId){
+        coffeeShopService.addOfferOrder(offerId, clientId);
+        Offer offer = getOfferById(offerId);
+        removePoints(clientId, offer.getPointCost());
     }
+
+//    public void addOfferOrder(Integer offerId, Integer clientId) {
+//        try {
+//            Offer offer = getOfferById(offerId);
+//
+//            if (offer == null) {
+//                throw new EntityNotFoundException("Offer not found with ID: " + offerId, null);
+//            }
+//
+//            if (clientId == null) {
+//                throw new ValidationException("Client ID cannot be null", null);
+//            }
+//
+////            // Handle points validation explicitly through logic
+////            if (coffeeShopService.hasEnoughPoints(clientId, offer.getPointCost())) {
+////                return coffeeShopService.addOfferOrder(offerId, clientId);
+////            } else {
+////                throw new BusinessLogicException("Client does not have enough points to redeem the offer.", null);
+////            }
+//
+//        } catch (ValidationException e) {
+//            System.out.println("Validation Error: " + e.getMessage());
+//        } catch (EntityNotFoundException e) {
+//            System.out.println("Entity Not Found Error: " + e.getMessage());
+//        } catch (BusinessLogicException e) {
+//            System.out.println("Business Logic Error: " + e.getMessage());
+//        } catch (DataBaseException e) {
+//            System.out.println("Database Error: " + e.getMessage());
+//        } catch (Exception e) {
+//            System.out.println("An unexpected error occurred: " + e.getMessage());
+//        }
+//
+//    }
 
 
 }
