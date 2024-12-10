@@ -201,4 +201,78 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
     }
 
 
+    @Test
+    void testOrderOperations() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        List <Integer> foodIds = new ArrayList<Integer>();
+        foodIds.add(4);
+        foodIds.add(5);
+
+        List<Integer> coffeeIds =  new ArrayList<Integer>();
+        coffeeIds.add(3);
+
+        Client client = new Client(21, "Ioana");
+        coffeeShopController.addClient(client);
+        Integer clientId = client.getId();
+        Card card = client.getCard();
+
+        Order addedOrder = coffeeShopController.addOrder(clientId, foodIds, coffeeIds);
+        Integer orderId = addedOrder.getId();
+        assertNotNull(orderId, "Order ID should not be null after persistence");
+
+        System.out.println(card.getCurrentPoints());
+
+        Order retrievedOrder = coffeeShopController.getOrderById(orderId);
+        transaction.commit();
+        assertNotNull(retrievedOrder, "Retrieved order should not be null");
+        assertEquals(clientId, retrievedOrder.getClientID(), "Client ID should match");
+        assertEquals(3, retrievedOrder.getProducts().size(), "Order should contain three products");
+        session.refresh(card);
+
+
+        coffeeShopController.deleteOrder(retrievedOrder, clientId);
+        assertNull(coffeeShopController.getOrderById(orderId));
+
+        session.close();
+
+    }
+
+    @Test
+    void testOfferOperations() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+
+        List<Integer> foodIds = List.of(4, 5);  // Assuming these IDs exist in the database
+        List<Integer> coffeeIds = List.of(3);  // Assuming this ID exists in the database
+
+
+        String offerName = "Breakfast Special";
+        int pointCost = 50;
+        Offer newOffer = coffeeShopController.addOffer(foodIds, coffeeIds, pointCost, offerName);
+        assertNotNull(newOffer, "New offer should not be null");
+        assertNotNull(newOffer.getId(), "Offer ID should not be null after persistence");
+        assertEquals(pointCost, newOffer.getPointCost(), "Offer point cost should match");
+        assertEquals(offerName, newOffer.getName(), "Offer name should match");
+        assertEquals(3, newOffer.getProducts().size(), "Offer should contain three products");
+
+        Offer retrievedOffer = coffeeShopController.getOfferById(newOffer.getId());
+        assertNotNull(retrievedOffer, "Retrieved offer should not be null");
+        assertEquals(newOffer.getId(), retrievedOffer.getId(), "Retrieved offer ID should match");
+        assertEquals(newOffer.getName(), retrievedOffer.getName(), "Retrieved offer name should match");
+        assertEquals(newOffer.getPointCost(), retrievedOffer.getPointCost(), "Retrieved offer point cost should match");
+        assertEquals(newOffer.getProducts().size(), retrievedOffer.getProducts().size(), "Retrieved offer product count should match");
+
+
+        coffeeShopController.deleteOffer(newOffer);
+        Offer deletedOffer = coffeeShopController.getOfferById(newOffer.getId());
+        assertNull(deletedOffer, "Deleted offer should be null");
+
+        transaction.commit();
+        session.close();
+    }
+
+
 }
