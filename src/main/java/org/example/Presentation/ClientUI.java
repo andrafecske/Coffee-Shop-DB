@@ -342,15 +342,32 @@ public class ClientUI {
 
     }
 
+//    public void viewPoints() {
+//        try {
+//            coffeeShopController.viewPoints(id); // Attempt to fetch and display points
+//        } catch (NullPointerException e) {
+//            System.out.println("Error: Unable to retrieve points. Please check your account details.");
+//        } catch (Exception e) {
+//            System.out.println("An unexpected error occurred: " + e.getMessage());
+//        }
+//    }
+
     public void viewPoints() {
         try {
+            if (id == null) {
+                System.out.println("Error: Client ID is not set. Please log in to view your points.");
+                return;
+            }
+
             coffeeShopController.viewPoints(id); // Attempt to fetch and display points
         } catch (NullPointerException e) {
             System.out.println("Error: Unable to retrieve points. Please check your account details.");
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace(); // Log the stack trace for debugging
         }
     }
+
 
     public void viewOrders() {
         try {

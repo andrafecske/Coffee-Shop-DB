@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="adding exception( order)">
+    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="changes la offerorder">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Presentation/AdminUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Presentation/AdminUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Presentation/ClientUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Presentation/ClientUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageOptionsProvider">
+    <option name="myAddOrReplace" value="2" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -89,7 +94,7 @@
     "Application.Main.executor": "Coverage",
     "Gradle.Build Coffee-Shop-DB.executor": "Run",
     "Gradle.Build MAP-BD.executor": "Run",
-    "Gradle.Coffee-Shop-DB [:org.example.Main.main()].executor": "Debug",
+    "Gradle.Coffee-Shop-DB [:org.example.Main.main()].executor": "Run",
     "Gradle.MAP-BD [:org.example.Main.main()].executor": "Run",
     "Gradle.MAP-BD [dependencies].executor": "Run",
     "JUnit.tests.executor": "Coverage",
@@ -335,7 +340,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733840462703</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="changes la offerorder">
+      <option name="closed" value="true" />
+      <created>1733841417584</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1733841417584</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -355,7 +368,8 @@
     <MESSAGE value="adding exception( client and admin)" />
     <MESSAGE value="adding exception( coffee and food)" />
     <MESSAGE value="adding exception( order)" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding exception( order)" />
+    <MESSAGE value="changes la offerorder" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes la offerorder" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -370,30 +384,11 @@
           <line>564</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Presentation/ClientUI.java</url>
-          <line>94</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java</url>
-          <line>714</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java</url>
-          <line>713</line>
-          <properties class="org.example.Controller.CoffeeShopController" method="listAllOffersClients">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733840670480" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733842758671" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>org.example.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/MAP_BD$tests.ic" NAME="tests Coverage Results" MODIFIED="1733825772080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

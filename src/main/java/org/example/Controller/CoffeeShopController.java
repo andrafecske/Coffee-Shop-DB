@@ -110,7 +110,7 @@ public class CoffeeShopController {
     public void deleteAdmin(Admin admin) {
         try {
             coffeeShopService.deleteAdmin(admin);
-            System.out.println("Admin deleted successfully.");
+         //   System.out.println("Admin deleted successfully.");
         } catch (ValidationException e) {
             System.out.println("Validation Error: " + e.getMessage());
         } catch (EntityNotFoundException e) {
