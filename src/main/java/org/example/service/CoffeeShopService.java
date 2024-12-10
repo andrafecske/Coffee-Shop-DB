@@ -601,6 +601,10 @@ public class CoffeeShopService {
                 throw new ValidationException("Offer name cannot be null or empty.", null);
             }
 
+            if(existsName(name)) {
+                throw new BusinessLogicException("Offer name already exists.", null);
+            }
+
             // Prepare the list of products
             List<Product> products = new ArrayList<>();
             for (Integer foodID : foodIds) {
@@ -713,10 +717,6 @@ public class CoffeeShopService {
                 throw new BusinessLogicException("Not enough points to redeem the offer.", null);
             }
 
-            // Deduct points
-            client.getCard().setCurrentPoints(
-                    client.getCard().getCurrentPoints() - offer.getPointCost()
-            );
 
             // Save client changes to DB
             clientRepo.update(clientId,client); // Ensure persistence here
@@ -730,6 +730,15 @@ public class CoffeeShopService {
         }
     }
 
+    public boolean existsName(String offerName){
+        List<Offer> offers = offerRepo.getAll();
+        for (Offer offer : offers) {
+            if (offer.getName().equals(offerName)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public boolean hasEnoughPoints(Integer clientId, int pointCost) {
         Client client = getClientById(clientId);
