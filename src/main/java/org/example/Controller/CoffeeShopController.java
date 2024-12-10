@@ -1,5 +1,6 @@
 package org.example.Controller;
 
+import org.example.Exceptions.*;
 import org.example.Utils.FoodType;
 import org.example.Utils.Role;
 import org.example.model.*;
@@ -89,11 +90,11 @@ public class CoffeeShopController {
      * @param admin the admin with updated details.
      */
     public void updateAdmin(Admin admin) {
-        if(admin == null){
-            System.out.println("Admin is null");
-            return;}
-        coffeeShopService.updateAdmin(admin);
-        System.out.println("Admin updated successfully");
+        try {
+            coffeeShopService.updateAdmin(admin);
+        } catch (EntityNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -101,9 +102,24 @@ public class CoffeeShopController {
      *
      * @param admin the admin to be deleted.
      */
+//    public void deleteAdmin(Admin admin) {
+//        coffeeShopService.deleteAdmin(admin);
+//        System.out.println("Admin deleted successfully");
+//    }
+
     public void deleteAdmin(Admin admin) {
-        coffeeShopService.deleteAdmin(admin);
-        System.out.println("Admin deleted successfully");
+        try {
+            coffeeShopService.deleteAdmin(admin);
+            System.out.println("Admin deleted successfully.");
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
 
 
@@ -116,9 +132,17 @@ public class CoffeeShopController {
      * @param client the client to be added.
      */
     public void addClient(Client client) {
-        coffeeShopService.addClient(client);
-        System.out.println("Client added");
+        try {
+            coffeeShopService.addClient(client);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
 
     /**
@@ -570,10 +594,10 @@ public class CoffeeShopController {
      * @return
      */
 
-    public void addOfferOrder(Integer offerId, Integer clientId){
-        coffeeShopService.addOfferOrder(offerId, clientId);
+    public OfferOrder addOfferOrder(Integer offerId, Integer clientId){
         Offer offer = getOfferById(offerId);
         removePoints(clientId, offer.getPointCost());
+        return coffeeShopService.addOfferOrder(offerId, clientId);
     }
 
 

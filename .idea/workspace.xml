@@ -4,10 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="added coffee tests and one type of exception">
+    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="added tests">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Exceptions/BusinessLogicException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Exceptions/EntityNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Exceptions/ValidationException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DBRepoAdminTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DBRepoAdminTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Repository/DBRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Repository/DBRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,6 +53,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Exception" />
       </list>
     </option>
   </component>
@@ -92,7 +98,7 @@
     "Gradle.Build MAP-BD.executor": "Run",
     "Gradle.MAP-BD [:org.example.Main.main()].executor": "Run",
     "Gradle.MAP-BD [dependencies].executor": "Run",
-    "JUnit.tests.executor": "Run",
+    "JUnit.tests.executor": "Coverage",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "addTest",
@@ -124,7 +130,7 @@
       <recent name="org.example.model" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.tests">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
       <module name="MAP-BD.main" />
@@ -279,7 +285,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733762492031</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="added tests">
+      <option name="closed" value="true" />
+      <created>1733823283371</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1733823283371</updated>
+    </task>
+    <task id="LOCAL-00011" summary="added tests">
+      <option name="closed" value="true" />
+      <created>1733823309841</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1733823309841</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -295,6 +317,13 @@
     <MESSAGE value="added some changes to admin UI" />
     <MESSAGE value="added food tests" />
     <MESSAGE value="added coffee tests and one type of exception" />
-    <option name="LAST_COMMIT_MESSAGE" value="added coffee tests and one type of exception" />
+    <MESSAGE value="added tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="added tests" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733826025015" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.example.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/MAP_BD$tests.ic" NAME="tests Coverage Results" MODIFIED="1733825772080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>

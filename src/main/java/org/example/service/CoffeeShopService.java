@@ -1,5 +1,9 @@
 package org.example.service;
 
+import org.example.Exceptions.BusinessLogicException;
+import org.example.Exceptions.DataBaseException;
+import org.example.Exceptions.EntityNotFoundException;
+import org.example.Exceptions.ValidationException;
 import org.example.Repository.IRepository;
 import org.example.model.*;
 
@@ -49,11 +53,10 @@ public class CoffeeShopService {
 
     public void updateAdmin(Admin admin) {
         Admin exists = adminRepo.read(admin.getId());
-        if (exists != null) {
-            adminRepo.update(admin.getId(), admin);
-        } else {
-            System.out.println("Admin not found");
+        if (exists == null) {
+            throw new EntityNotFoundException("Admin with ID " + admin.getId() + " not found.", null);
         }
+        adminRepo.update(admin.getId(), admin);
     }
 
 
@@ -64,17 +67,22 @@ public class CoffeeShopService {
      */
 
     public void deleteAdmin(Admin admin) {
-        if(admin == null){
-            System.out.println("Admin is null");
-            return;}
+        if (admin == null) {
+            throw new ValidationException("Admin cannot be null.", null);
+        }
 
-        Admin exists = adminRepo.read(admin.getId());
-        if (exists != null) {
-            adminRepo.delete(admin.getId());
-        }else{
-            System.out.println("Admin not found");
+        try {
+            Admin existingAdmin = adminRepo.read(admin.getId());
+            if (existingAdmin != null) {
+                adminRepo.delete(admin.getId());
+            } else {
+                throw new EntityNotFoundException("Admin with ID " + admin.getId() + " not found.", null);
+            }
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while deleting the admin.", e);
         }
     }
+
     /**
      * Retrieves an admin by their ID.
      *
@@ -93,26 +101,25 @@ public class CoffeeShopService {
      *
      * @param client the client to be added
      */
-
     public void addClient(Client client) {
         try {
             if (client == null) {
-                System.out.println("Client is null");
-                return;
+                throw new ValidationException("Client cannot be null.", null);
             }
 
             if (isAdminDuplicate(client)) {
-                System.out.println("Can't create client, there is already an admin with the same name and id");
-                return;
+                throw new BusinessLogicException("Cannot create client. An admin with the same name and ID already exists.", null);
             }
 
             clientRepo.create(client);
-            System.out.println("Client added successfully");
-
-        } catch (Exception e) {
-            System.out.println("An unexpected error occurred while adding the client: " + e.getMessage());
+            System.out.println("Client added successfully.");
+        } catch (ValidationException | BusinessLogicException e) {
+            throw e; // Re-throw specific exceptions for higher layers to handle.
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while adding the client to the database.", e);
         }
     }
+
 
 
     /**

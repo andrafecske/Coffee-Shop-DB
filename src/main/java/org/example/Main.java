@@ -67,6 +67,11 @@ public class Main {
 //        coffeeShopController.addCoffee(coffee);
 
 
+        //Admin admin = new Admin(30, "Alexandra", Role.Manager);
+      //  coffeeShopController.addAdmin(admin);
+
+
+
 
         scanner.close();
 
