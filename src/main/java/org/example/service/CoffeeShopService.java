@@ -437,19 +437,53 @@ public class CoffeeShopService {
      * @return the newly created {@link Order} object with all specified products.
      */
     public Order addOrder(Integer clientID, List<Integer> foodIDs, List<Integer> coffeeIDs) {
-        List<Product> products = new ArrayList<>();
-        for (Integer foodID : foodIDs) {
-            Food food = getFoodById(foodID);
-            products.add(food);
-        }
-        for (Integer coffeeID : coffeeIDs) {
-            Coffee coffee = getCoffeeById(coffeeID);
-            products.add(coffee);
-        }
-        Order order = new Order(clientID, products);
+        try {
+            if (clientID == null) {
+                throw new ValidationException("Client ID cannot be null.", null);
+            }
+            if ((foodIDs == null || foodIDs.isEmpty()) && (coffeeIDs == null || coffeeIDs.isEmpty())) {
+                throw new ValidationException("Both food and coffee ID lists cannot be null or empty.", null);
+            }
 
-        orderRepo.create(order);
-        return order;
+            List<Product> products = new ArrayList<>();
+
+            // Process Food IDs
+            for (Integer foodID : foodIDs) {
+                if (foodID == null) {
+                    throw new ValidationException("Food ID cannot be null.", null);
+                }
+                Food food = getFoodById(foodID);
+                if (food == null) {
+                    throw new EntityNotFoundException("Food with ID " + foodID + " not found.", null);
+                }
+                products.add(food);
+            }
+
+            // Process Coffee IDs
+            for (Integer coffeeID : coffeeIDs) {
+                if (coffeeID == null) {
+                    throw new ValidationException("Coffee ID cannot be null.", null);
+                }
+                Coffee coffee = getCoffeeById(coffeeID);
+                if (coffee == null) {
+                    throw new EntityNotFoundException("Coffee with ID " + coffeeID + " not found.", null);
+                }
+                products.add(coffee);
+            }
+
+            // Create the order
+            Order order = new Order(clientID, products);
+            orderRepo.create(order);
+            System.out.println("Order created successfully.");
+            return order;
+
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Failed to add order due to missing products.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while adding the order to the database.", e);
+        }
     }
 
     /**
@@ -482,20 +516,33 @@ public class CoffeeShopService {
      * @param order the {@link Order} object containing the updated information.
      */
     public void updateOrder(Order order) {
-        if (order == null) {
-            System.out.println("Order is null");
-            return;}
+        try {
+            if (order == null) {
+                throw new ValidationException("Order cannot be null.", null);
+            }
 
-        Order exists = orderRepo.read(order.getId());
-        if (exists != null) {
+            // Check if the order exists
+            Order existingOrder = orderRepo.read(order.getId());
+            if (existingOrder == null) {
+                throw new EntityNotFoundException("Order with ID " + order.getId() + " not found.", null);
+            }
+
+            // Recalculate order details
             order.calculatePoints();
             order.calculateTotalCost();
+
+            // Update the order
             orderRepo.update(order.getId(), order);
-            System.out.println("Order updated successfully");
-        }else{
-            System.out.println("Order not found");
+            System.out.println("Order updated successfully.");
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Order update failed because the order was not found.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while updating the order in the database.", e);
         }
     }
+
 
     /**
      * Updates an existing {@link Order} in the repository with new data.
@@ -542,20 +589,43 @@ public class CoffeeShopService {
      * @return the newly created {@link Offer} object.
      */
     public Offer addOffer(List<Integer> foodIds, List<Integer> coffeeIds, int pointCost, String name) {
+        try {
+            // Input validation
+            if ((foodIds == null || foodIds.isEmpty()) && (coffeeIds == null || coffeeIds.isEmpty())) {
+                throw new ValidationException("An offer must include at least one product (food or coffee).", null);
+            }
+            if (pointCost <= 0) {
+                throw new ValidationException("Point cost must be a positive integer.", null);
+            }
+            if (name == null || name.isBlank()) {
+                throw new ValidationException("Offer name cannot be null or empty.", null);
+            }
 
-        List<Product> products = new ArrayList<>();
-        for (Integer foodID : foodIds) {
-            Food food = getFoodById(foodID);
-            products.add(food);
+            // Prepare the list of products
+            List<Product> products = new ArrayList<>();
+            for (Integer foodID : foodIds) {
+                Food food = getFoodById(foodID); // Throws exception if not found
+                products.add(food);
+            }
+            for (Integer coffeeID : coffeeIds) {
+                Coffee coffee = getCoffeeById(coffeeID); // Throws exception if not found
+                products.add(coffee);
+            }
+
+            // Create and save the offer
+            Offer offer = new Offer(products, pointCost, name);
+            offerRepo.create(offer);
+
+            System.out.println("Offer created successfully: " + offer);
+            return offer;
+
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("One or more products in the offer could not be found.", e);
+        } catch (Exception e) {
+            throw new DataBaseException("An error occurred while creating the offer.", e);
         }
-        for (Integer coffeeID : coffeeIds) {
-            Coffee coffee = getCoffeeById(coffeeID);
-            products.add(coffee);
-        }
-        Offer offer = new Offer(products, pointCost, name);
-        offerRepo.create(offer);
-        return offer;
     }
+
 
     /**
      * Retrieves an {@link Offer} from the repository by its ID.
@@ -593,11 +663,29 @@ public class CoffeeShopService {
      * @param offer the {@link Offer} to be deleted. If the offer is {@code null}, it will not be deleted.
      */
     public void deleteOffer(Offer offer) {
-        if (offer == null) {
-            System.out.println("Offer is null");
+        try {
+            // Validation: Check if the offer is null
+            if (offer == null) {
+                throw new ValidationException("The offer to delete cannot be null.", null);
+            }
+
+            // Check if the offer exists in the repository
+            Offer existingOffer = offerRepo.read(offer.getId());
+            if (existingOffer == null) {
+                throw new EntityNotFoundException("The offer with ID " + offer.getId() + " does not exist.", null);
+            }
+
+            // Proceed to delete
+            offerRepo.delete(offer.getId());
+            System.out.println("Offer deleted successfully: " + offer);
+
+        } catch (ValidationException | EntityNotFoundException e) {
+            throw e; // Rethrow validation and entity-specific exceptions for the controller to handle
+        } catch (Exception e) {
+            throw new DataBaseException("An error occurred while deleting the offer.", e);
         }
-        offerRepo.delete(offer.getId());
     }
+
 
     //OFFER ORDER OPERATIONS
     /**
@@ -612,16 +700,42 @@ public class CoffeeShopService {
      * @param clientId the ID of the {@link Client} making the purchase.
      * @return the created {@link OfferOrder} if the client has enough points; {@code null} if the points are insufficient.
      */
+    public OfferOrder addOfferOrder(Integer offerId, Integer clientId) {
+        try {
+            Offer offer = getOfferById(offerId);
+            Client client = getClientById(clientId);
 
-    public OfferOrder addOfferOrder (Integer offerId, Integer clientId){
-        Offer offer = getOfferById(offerId);
-        Client client = getClientById(clientId);
+            if (offer == null || client == null) {
+                throw new EntityNotFoundException("Offer or Client not found.", null);
+            }
 
-        OfferOrder offerOrder = new OfferOrder(client, offer);
-        client.getCard().setCurrentPoints(client.getCard().getCurrentPoints()-offer.pointCost);
-        offerOrderRepo.create(offerOrder);
-        return offerOrder;
+            if (client.getCard().getCurrentPoints() < offer.getPointCost()) {
+                throw new BusinessLogicException("Not enough points to redeem the offer.", null);
+            }
+
+            // Deduct points
+            client.getCard().setCurrentPoints(
+                    client.getCard().getCurrentPoints() - offer.getPointCost()
+            );
+
+            // Save client changes to DB
+            clientRepo.update(clientId,client); // Ensure persistence here
+
+            OfferOrder offerOrder = new OfferOrder(client, offer);
+            offerOrderRepo.create(offerOrder);
+
+            return offerOrder;
+        } catch (Exception e) {
+            throw new DataBaseException("Error during the offer redemption.", e);
+        }
     }
+
+
+    public boolean hasEnoughPoints(Integer clientId, int pointCost) {
+        Client client = getClientById(clientId);
+        return client.getCard().getCurrentPoints() >= pointCost;
+    }
+
 
 
 }

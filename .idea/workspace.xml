@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="adding exception( coffee and food)">
+    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="adding exception( order)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Repository/DBRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Repository/DBRepo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -311,7 +313,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733827188270</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="adding exception( order)">
+      <option name="closed" value="true" />
+      <created>1733828069885</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1733828069885</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,7 +340,8 @@
     <MESSAGE value="added tests" />
     <MESSAGE value="adding exception( client and admin)" />
     <MESSAGE value="adding exception( coffee and food)" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding exception( coffee and food)" />
+    <MESSAGE value="adding exception( order)" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding exception( order)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -342,14 +353,14 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java</url>
-          <line>520</line>
-          <option name="timeStamp" value="3" />
+          <line>564</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733827310040" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733837436990" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>org.example.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/MAP_BD$tests.ic" NAME="tests Coverage Results" MODIFIED="1733825772080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

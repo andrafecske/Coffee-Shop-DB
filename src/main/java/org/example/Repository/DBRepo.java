@@ -39,20 +39,33 @@ public class DBRepo<T extends HasID> implements IRepository<T> {
         }
     }
 
+ //   @Override
+//    public T read(Integer id) {
+//        Session session = sessionFactory.openSession();
+//        try {
+//            T entity = session.get(entityType, id); // Fetch the entity by ID
+//            if (entity == null) {
+//                throw new EntityNotFoundException(entityType.getSimpleName() + " with ID " + id + " not found.", null);
+//            }
+//            return entity;
+//        } catch (EntityNotFoundException e) {
+//            throw e;
+//        } catch (Exception e) {
+//            throw new DataBaseException("Error reading entity in the database.", e);
+//        } finally {
+//            session.close();
+//        }
+//    }
     @Override
     public T read(Integer id) {
         Session session = sessionFactory.openSession();
         try {
-            T entity = session.get(entityType, id); // Fetch the entity by ID
-            if (entity == null) {
-                throw new EntityNotFoundException(entityType.getSimpleName() + " with ID " + id + " not found.", null);
-            }
-            return entity;
-        } catch (EntityNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
+            return session.get(entityType, id); // Fetch the entity by ID
+        } catch(Exception e){
             throw new DataBaseException("Error reading entity in the database.", e);
-        } finally {
+        }
+
+        finally {
             session.close();
         }
     }
