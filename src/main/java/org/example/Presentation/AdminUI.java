@@ -341,7 +341,12 @@ public class AdminUI {
 
                 case "3":
                     System.out.println("Current active offers: ");
-                    viewOffers();
+                    List<Offer> offers = controller.getAllOffers();
+                    for (Offer off : offers) {
+                        System.out.println(off);
+                        System.out.println(off.offerID + "id of the offer from above");
+                    }
+                    //viewOffers();
                     deleteOffer(scanner);
                     break;
 
@@ -1047,6 +1052,8 @@ public class AdminUI {
     public void viewOffers(){
         controller.listAllOffers();
     }
+
+
 
     public List<Integer> offerFood(Scanner scanner) {
         List<Integer> foods = new ArrayList<>();

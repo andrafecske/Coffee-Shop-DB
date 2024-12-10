@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="offer order test">
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java" afterDir="false" />
-    </list>
+    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="offer order test" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -378,7 +376,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733846098904</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="offer order test">
+      <option name="closed" value="true" />
+      <created>1733847229717</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1733847229717</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -440,7 +446,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733846423855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733847070983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>org.example.*</FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/MAP_BD$tests.ic" NAME="tests Coverage Results" MODIFIED="1733825772080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
