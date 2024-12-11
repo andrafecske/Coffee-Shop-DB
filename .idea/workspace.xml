@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="added coffee tests and one type of exception">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/DBRepoAdminTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DBRepoAdminTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="eb07b3f7-a891-4238-b746-1084e953b13f" name="Changes" comment="adding stuff" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -77,38 +73,38 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2plfLl3LZokvr9VRWP8EFrVUIGF" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Gradle.Build MAP-BD.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MAP-BD [:org.example.Main.main()].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.MAP-BD [dependencies].executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.tests.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example/Repository/DBrepositories&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Gradle.Build MAP-BD.executor": "Run",
+    "Gradle.MAP-BD [:org.example.Main.main()].executor": "Run",
+    "Gradle.MAP-BD [dependencies].executor": "Run",
+    "JUnit.tests.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Rebasing master",
+    "kotlin-language-version-configured": "true",
+    "last_directory_selection": "C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example/Repository/DBrepositories",
+    "last_opened_file_path": "C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Coding\facultate\MAP\proiect MAP BD\MAP-BD\src\main\java\org\example" />
@@ -293,6 +289,13 @@
     <MESSAGE value="added some changes to admin UI" />
     <MESSAGE value="added food tests" />
     <MESSAGE value="added coffee tests and one type of exception" />
-    <option name="LAST_COMMIT_MESSAGE" value="added coffee tests and one type of exception" />
+    <MESSAGE value="adding stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding stuff" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733921140087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>org.example.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/MAP_BD$tests.ic" NAME="tests Coverage Results" MODIFIED="1733825772080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>
