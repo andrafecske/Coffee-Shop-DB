@@ -107,12 +107,20 @@ public class CoffeeShopService {
                 throw new ValidationException("Client cannot be null.", null);
             }
 
+            if(client.getName().matches(".*\\d.*"))
+            {
+                throw new ValidationException("name cannot be numeric", null);
+            }
+
+            if(client.getAge() <=0 )
+                throw new ValidationException("Client age cannot be less than or equal to zero.", null);
+
             if (isAdminDuplicate(client)) {
                 throw new BusinessLogicException("Cannot create client. An admin with the same name and ID already exists.", null);
             }
 
             clientRepo.create(client);
-            System.out.println("Client added successfully.");
+            //System.out.println("Client added successfully.");
         } catch (ValidationException | BusinessLogicException e) {
             throw e; // Re-throw specific exceptions for higher layers to handle.
         } catch (DataBaseException e) {
@@ -231,7 +239,7 @@ public class CoffeeShopService {
             }
 
             foodRepo.create(food);
-            System.out.println("Food added successfully.");
+            //System.out.println("Food added successfully.");
         } catch (ValidationException e) {
             throw e; // Re-throw specific exceptions for higher layers to handle
         } catch (DataBaseException e) {

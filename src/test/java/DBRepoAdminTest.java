@@ -44,7 +44,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         coffeeShopService = new CoffeeShopService(adminRepository, clientRepository,foodRepository,coffeeRepository, orderRepository, offerRepository, offerOrderDBRepo);
         coffeeShopController = new CoffeeShopController(coffeeShopService);
     }
- //  @Test
+   @Test
     void testAdminOperations() {
 
         Session session = sessionFactory.openSession();
@@ -92,7 +92,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         session.close();
     }
 
-//    @Test
+    @Test
     void testClientOperations() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -132,7 +132,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         session.close();
     }
 
- //  @Test
+   @Test
     void testFoodAndCoffeeOperations() {
         //food and coffee
         Session session = sessionFactory.openSession();
@@ -202,7 +202,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
     }
 
 
- // @Test
+  @Test
     void testOrderOperations() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -240,7 +240,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
 
     }
 
-  // @Test
+   @Test
     void testOfferOperations() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -250,7 +250,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         List<Integer> coffeeIds = List.of(3);  // Assuming this ID exists in the database
 
 
-        String offerName = "Breakfast Special";
+        String offerName = "wowie";
         int pointCost = 50;
         Offer newOffer = coffeeShopController.addOffer(foodIds, coffeeIds, pointCost, offerName);
         assertNotNull(newOffer, "New offer should not be null");
@@ -291,7 +291,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
 
         // Set up the offer
         Offer newOffer = new Offer();
-        newOffer.setName("Lunch Special");
+        newOffer.setName("ioooooi");
         newOffer.setPointCost(30);
 
         // Insert offer into DB
@@ -305,7 +305,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         );
 
         // Perform the service call without try/catch
-        coffeeShopService.addOfferOrder(newOffer.getId(), client.getId());
+        coffeeShopController.addOfferOrder(newOffer.getId(), client.getId());
 
         // Assert points were deducted successfully
         Client updatedClient = clientRepository.read(client.getId());

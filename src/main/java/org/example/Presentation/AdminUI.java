@@ -554,13 +554,13 @@ public class AdminUI {
     private void addClient(Scanner scanner) {
         try {
             // Prompt and validate Client ID
-            System.out.print("Enter Client ID: ");
-            String idInput = scanner.nextLine().trim();
-            if (idInput.isEmpty()) {
-                System.out.println("Client ID cannot be empty.");
-                return;
-            }
-            int id = Integer.parseInt(idInput);
+//            System.out.print("Enter Client ID: ");
+//            String idInput = scanner.nextLine().trim();
+//            if (idInput.isEmpty()) {
+//                System.out.println("Client ID cannot be empty.");
+//                return;
+//            }
+//            int id = Integer.parseInt(idInput);
 
             // Prompt and validate Age
             System.out.print("Enter Age: ");
@@ -580,6 +580,11 @@ public class AdminUI {
             String name = scanner.nextLine().trim();
             if (name.isEmpty()) {
                 System.out.println("Name cannot be empty.");
+                return;
+            }
+            if (name.matches(".*\\d.*"))
+            {
+                System.out.println("Name cannot contain digits.");
                 return;
             }
 
@@ -614,18 +619,18 @@ public class AdminUI {
             // Prompt for Client ID
             System.out.print("Enter the ID of the Client to update: ");
             String idInput = scanner.nextLine().trim();
-            if (idInput.isEmpty()) {
-                System.out.println("Client ID cannot be empty.");
-                return;
-            }
+//            if (idInput.isEmpty()) {
+//                System.out.println("Client ID cannot be empty.");
+//                return;
+//            }
             int id = Integer.parseInt(idInput);
 
             // Retrieve the existing Client
             Client existingClient = controller.getClientById(id);
-            if (existingClient == null) {
-                System.out.println("Client with ID " + id + " not found.");
-                return;
-            }
+//            if (existingClient == null) {
+//                System.out.println("Client with ID " + id + " not found.");
+//                return;
+//            }
 
             // Prompt for new Age
             System.out.print("Enter new Age (or press Enter to keep " + existingClient.getAge() + "): ");

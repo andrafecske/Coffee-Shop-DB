@@ -57,6 +57,10 @@ public class Main {
         UI mainUI = new UI(coffeeShopController, adminUI, clientUI);
         mainUI.start();
 
+
+//       Client client = new Client(23, "tanti");
+//       coffeeShopController.addClient(client);
+
 //        Food food = new Food(40, 57, "Burger", FoodType.MEAL);
 //        coffeeShopController.addFood(food);
 //

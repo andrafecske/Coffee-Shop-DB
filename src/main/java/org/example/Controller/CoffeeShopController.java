@@ -268,6 +268,7 @@ public class CoffeeShopController {
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
         }
+
     }
 
 
@@ -689,7 +690,6 @@ public class CoffeeShopController {
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
         }
-
         return null; // Return null in case of failure
     }
 
