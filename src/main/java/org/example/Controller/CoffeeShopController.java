@@ -33,7 +33,13 @@ public class CoffeeShopController {
             System.out.println("Admin is null");
             return;
         }
-        coffeeShopService.addAdmin(admin);
+        try{
+            coffeeShopService.addAdmin(admin);
+        }
+        catch (ValidationException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println("Admin added successfully");
     }
 

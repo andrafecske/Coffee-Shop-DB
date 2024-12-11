@@ -372,10 +372,21 @@ public class AdminUI {
             }
             int age = Integer.parseInt(ageInput);
 
+            if (age < 0) {
+                System.out.println("Age cannot be negative.");
+                return;
+            }
+
             System.out.print("Enter Admin Name: ");
             String name = scanner.nextLine().trim();
             if (name.isEmpty()) {
                 System.out.println("Name cannot be empty.");
+                return;
+            }
+
+            if (name.matches(".*\\d.*"))
+            {
+                System.out.println("Name cannot contain digits.");
                 return;
             }
 

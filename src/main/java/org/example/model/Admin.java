@@ -72,5 +72,4 @@ public class Admin extends Person {
         return super.toString() + ", Role: " + role + '\n';
     }
 
-
 }

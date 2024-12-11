@@ -250,7 +250,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         List<Integer> coffeeIds = List.of(3);  // Assuming this ID exists in the database
 
 
-        String offerName = "wowie";
+        String offerName = "woahhh";
         int pointCost = 50;
         Offer newOffer = coffeeShopController.addOffer(foodIds, coffeeIds, pointCost, offerName);
         assertNotNull(newOffer, "New offer should not be null");
@@ -291,7 +291,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
 
         // Set up the offer
         Offer newOffer = new Offer();
-        newOffer.setName("ioooooi");
+        newOffer.setName("slay");
         newOffer.setPointCost(30);
 
         // Insert offer into DB

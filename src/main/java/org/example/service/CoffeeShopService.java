@@ -33,6 +33,9 @@ public class CoffeeShopService {
 
     //admin operations
     public void addAdmin(Admin admin) {
+        if(admin.getAge() <=0 )
+            throw new ValidationException("Admin age cannot be less than or equal to zero.", null);
+
         adminRepo.create(admin);
     }
 
@@ -113,7 +116,7 @@ public class CoffeeShopService {
             }
 
             if(client.getAge() <=0 )
-                throw new ValidationException("Client age cannot be less than or equal to zero.", null);
+                throw new ValidationException ("Client age cannot be less than or equal to zero.", null);
 
             if (isAdminDuplicate(client)) {
                 throw new BusinessLogicException("Cannot create client. An admin with the same name and ID already exists.", null);
