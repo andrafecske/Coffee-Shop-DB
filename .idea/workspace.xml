@@ -87,16 +87,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Application.Main.executor": "Coverage",
-    "Gradle.Build Coffee-Shop-DB.executor": "Run",
-    "Gradle.Build MAP-BD.executor": "Run",
-    "Gradle.Coffee-Shop-DB [:org.example.Main.main()].executor": "Run",
+
     "Gradle.MAP-BD [:org.example.Main.main()].executor": "Run",
     "Gradle.MAP-BD [dependencies].executor": "Run",
     "JUnit.tests.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "addTest",
+
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example/Repository/DBrepositories",
     "last_opened_file_path": "C:/Coding/facultate/MAP/proiect MAP BD/MAP-BD/src/main/java/org/example",
@@ -424,47 +421,7 @@
     <MESSAGE value="added some changes to admin UI" />
     <MESSAGE value="added food tests" />
     <MESSAGE value="added coffee tests and one type of exception" />
-    <MESSAGE value="added tests" />
-    <MESSAGE value="adding exception( client and admin)" />
-    <MESSAGE value="adding exception( coffee and food)" />
-    <MESSAGE value="adding exception( order)" />
-    <MESSAGE value="changes la offerorder" />
-    <MESSAGE value="pieptanam codu" />
-    <MESSAGE value="made it workkkk" />
-    <MESSAGE value="offer order test" />
-    <MESSAGE value="adding stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding stuff" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/service/CoffeeShopService.java</url>
-          <line>575</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java</url>
-          <line>745</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Controller/CoffeeShopController.java</url>
-          <line>808</line>
-          <properties class="org.example.Controller.CoffeeShopController" method="getOfferById">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
+
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/MAP_BD$Main.ic" NAME="Main Coverage Results" MODIFIED="1733921140087" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <FILTER>org.example.*</FILTER>
