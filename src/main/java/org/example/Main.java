@@ -7,6 +7,7 @@ import org.example.Presentation.UI;
 import org.example.Repository.DBRepo;
 import org.example.Repository.InMemoryRepository;
 import org.example.Utils.FoodType;
+import org.example.Utils.MilkType;
 import org.example.Utils.Role;
 import org.example.model.*;
 import org.example.service.CoffeeShopService;
@@ -55,6 +56,24 @@ public class Main {
 
         UI mainUI = new UI(coffeeShopController, adminUI, clientUI);
         mainUI.start();
+
+
+//       Client client = new Client(23, "tanti");
+//       coffeeShopController.addClient(client);
+
+//        Food food = new Food(40, 57, "Burger", FoodType.MEAL);
+//        coffeeShopController.addFood(food);
+//
+//        Food food1 = new Food(30, 60, "Velvet Cake", FoodType.DESSERT);
+//        coffeeShopController.addFood(food1);
+//
+//        Coffee coffee = new Coffee(20, 25, "Matcha", false, MilkType.OAT);
+//        coffeeShopController.addCoffee(coffee);
+
+
+        //Admin admin = new Admin(30, "Alexandra", Role.Manager);
+      //  coffeeShopController.addAdmin(admin);
+
 
 
 

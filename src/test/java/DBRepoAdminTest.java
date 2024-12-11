@@ -38,12 +38,13 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         foodRepository = new DBRepo<>(sessionFactory, Food.class);
         orderRepository = new DBRepo<>(sessionFactory, Order.class);
         offerRepository = new DBRepo<>(sessionFactory, Offer.class);
+        offerOrderDBRepo = new DBRepo<>(sessionFactory, OfferOrder.class);
 
 
         coffeeShopService = new CoffeeShopService(adminRepository, clientRepository,foodRepository,coffeeRepository, orderRepository, offerRepository, offerOrderDBRepo);
         coffeeShopController = new CoffeeShopController(coffeeShopService);
     }
-    @Test
+   @Test
     void testAdminOperations() {
 
         Session session = sessionFactory.openSession();
@@ -131,7 +132,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         session.close();
     }
 
-    @Test
+   @Test
     void testFoodAndCoffeeOperations() {
         //food and coffee
         Session session = sessionFactory.openSession();
@@ -199,6 +200,127 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         transaction.commit();
         session.close();
     }
+
+
+  @Test
+    void testOrderOperations() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        List <Integer> foodIds = new ArrayList<Integer>();
+        foodIds.add(4);
+        foodIds.add(5);
+
+        List<Integer> coffeeIds =  new ArrayList<Integer>();
+        coffeeIds.add(3);
+
+        Client client = new Client(21, "Ioana");
+        coffeeShopController.addClient(client);
+        Integer clientId = client.getId();
+        Card card = client.getCard();
+
+        Order addedOrder = coffeeShopController.addOrder(clientId, foodIds, coffeeIds);
+        Integer orderId = addedOrder.getId();
+        assertNotNull(orderId, "Order ID should not be null after persistence");
+
+        System.out.println(card.getCurrentPoints());
+
+        Order retrievedOrder = coffeeShopController.getOrderById(orderId);
+        transaction.commit();
+        assertNotNull(retrievedOrder, "Retrieved order should not be null");
+        assertEquals(clientId, retrievedOrder.getClientID(), "Client ID should match");
+        assertEquals(3, retrievedOrder.getProducts().size(), "Order should contain three products");
+        session.refresh(card);
+
+
+        coffeeShopController.deleteOrder(retrievedOrder, clientId);
+        assertNull(coffeeShopController.getOrderById(orderId));
+
+        session.close();
+
+    }
+
+   @Test
+    void testOfferOperations() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+
+        List<Integer> foodIds = List.of(4, 5);  // Assuming these IDs exist in the database
+        List<Integer> coffeeIds = List.of(3);  // Assuming this ID exists in the database
+
+
+        String offerName = "woahhh";
+        int pointCost = 50;
+        Offer newOffer = coffeeShopController.addOffer(foodIds, coffeeIds, pointCost, offerName);
+        assertNotNull(newOffer, "New offer should not be null");
+        assertNotNull(newOffer.getId(), "Offer ID should not be null after persistence");
+        assertEquals(pointCost, newOffer.getPointCost(), "Offer point cost should match");
+        assertEquals(offerName, newOffer.getName(), "Offer name should match");
+        assertEquals(3, newOffer.getProducts().size(), "Offer should contain three products");
+
+        Offer retrievedOffer = coffeeShopController.getOfferById(newOffer.getId());
+        assertNotNull(retrievedOffer, "Retrieved offer should not be null");
+        assertEquals(newOffer.getId(), retrievedOffer.getId(), "Retrieved offer ID should match");
+        assertEquals(newOffer.getName(), retrievedOffer.getName(), "Retrieved offer name should match");
+        assertEquals(newOffer.getPointCost(), retrievedOffer.getPointCost(), "Retrieved offer point cost should match");
+        assertEquals(newOffer.getProducts().size(), retrievedOffer.getProducts().size(), "Retrieved offer product count should match");
+
+
+        coffeeShopController.deleteOffer(newOffer);
+        Offer deletedOffer = coffeeShopController.getOfferById(newOffer.getId());
+        assertNull(deletedOffer, "Deleted offer should be null");
+
+        transaction.commit();
+        session.close();
+    }
+
+
+    @Test
+    public void testOfferOrderOperations() {
+        // Set up the client
+        Card card = new Card();
+        card.setCurrentPoints(137); // Ensure enough points for the test
+
+        Client client = new Client();
+        client.setName("John Doe");
+        client.setAge(30);
+        client.setCard(card);
+
+        clientRepository.create(client);
+
+        // Set up the offer
+        Offer newOffer = new Offer();
+        newOffer.setName("slay");
+        newOffer.setPointCost(30);
+
+        // Insert offer into DB
+        offerRepository.create(newOffer);
+
+        // Fetch the latest client details for service
+        assertNotNull(client.getCard(), "Client's card should not be null.");
+        assertTrue(
+                client.getCard().getCurrentPoints() >= newOffer.getPointCost(),
+                "Client does not have enough points to redeem the offer."
+        );
+
+        // Perform the service call without try/catch
+        coffeeShopController.addOfferOrder(newOffer.getId(), client.getId());
+
+        // Assert points were deducted successfully
+        Client updatedClient = clientRepository.read(client.getId());
+        assertNotNull(updatedClient, "Updated client should not be null.");
+        assertEquals(
+                107,
+                updatedClient.getCard().getCurrentPoints(),
+                "Points should be deducted correctly upon successful offer redemption."
+        );
+
+        System.out.println("Points successfully deducted. Test passed.");
+    }
+
+
+
 
 
 }

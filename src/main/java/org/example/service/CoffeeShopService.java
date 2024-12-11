@@ -1,5 +1,9 @@
 package org.example.service;
 
+import org.example.Exceptions.BusinessLogicException;
+import org.example.Exceptions.DataBaseException;
+import org.example.Exceptions.EntityNotFoundException;
+import org.example.Exceptions.ValidationException;
 import org.example.Repository.IRepository;
 import org.example.model.*;
 
@@ -29,6 +33,9 @@ public class CoffeeShopService {
 
     //admin operations
     public void addAdmin(Admin admin) {
+        if(admin.getAge() <=0 )
+            throw new ValidationException("Admin age cannot be less than or equal to zero.", null);
+
         adminRepo.create(admin);
     }
 
@@ -49,11 +56,10 @@ public class CoffeeShopService {
 
     public void updateAdmin(Admin admin) {
         Admin exists = adminRepo.read(admin.getId());
-        if (exists != null) {
-            adminRepo.update(admin.getId(), admin);
-        } else {
-            System.out.println("Admin not found");
+        if (exists == null) {
+            throw new EntityNotFoundException("Admin with ID " + admin.getId() + " not found.", null);
         }
+        adminRepo.update(admin.getId(), admin);
     }
 
 
@@ -64,17 +70,22 @@ public class CoffeeShopService {
      */
 
     public void deleteAdmin(Admin admin) {
-        if(admin == null){
-            System.out.println("Admin is null");
-            return;}
+        if (admin == null) {
+            throw new ValidationException("Admin cannot be null.", null);
+        }
 
-        Admin exists = adminRepo.read(admin.getId());
-        if (exists != null) {
-            adminRepo.delete(admin.getId());
-        }else{
-            System.out.println("Admin not found");
+        try {
+            Admin existingAdmin = adminRepo.read(admin.getId());
+            if (existingAdmin != null) {
+                adminRepo.delete(admin.getId());
+            } else {
+                throw new EntityNotFoundException("Admin with ID " + admin.getId() + " not found.", null);
+            }
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while deleting the admin.", e);
         }
     }
+
     /**
      * Retrieves an admin by their ID.
      *
@@ -93,26 +104,33 @@ public class CoffeeShopService {
      *
      * @param client the client to be added
      */
-
     public void addClient(Client client) {
         try {
             if (client == null) {
-                System.out.println("Client is null");
-                return;
+                throw new ValidationException("Client cannot be null.", null);
             }
 
+            if(client.getName().matches(".*\\d.*"))
+            {
+                throw new ValidationException("name cannot be numeric", null);
+            }
+
+            if(client.getAge() <=0 )
+                throw new ValidationException ("Client age cannot be less than or equal to zero.", null);
+
             if (isAdminDuplicate(client)) {
-                System.out.println("Can't create client, there is already an admin with the same name and id");
-                return;
+                throw new BusinessLogicException("Cannot create client. An admin with the same name and ID already exists.", null);
             }
 
             clientRepo.create(client);
-            System.out.println("Client added successfully");
-
-        } catch (Exception e) {
-            System.out.println("An unexpected error occurred while adding the client: " + e.getMessage());
+            //System.out.println("Client added successfully.");
+        } catch (ValidationException | BusinessLogicException e) {
+            throw e; // Re-throw specific exceptions for higher layers to handle.
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while adding the client to the database.", e);
         }
     }
+
 
 
     /**
@@ -147,15 +165,22 @@ public class CoffeeShopService {
      *
      * @param client the client to be deleted
      */
-    public void deleteClient(Client client){
-        if(client == null){
-            System.out.println("Client is null");
-            return;
-        }
-        clientRepo.delete(client.getId());
-        System.out.println("Client deleted successfully");
+    public void deleteClient(Client client) {
+        try {
+            if (client == null) {
+                throw new ValidationException("Client cannot be null.", null);
+            }
 
+            // Attempt to delete the client
+            clientRepo.delete(client.getId());
+            System.out.println("Client deleted successfully.");
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Client with ID " + client.getId() + " not found. Unable to delete.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while deleting the client from the database.", e);
+        }
     }
+
 
     /**
      * Updates an existing client in the repository.
@@ -163,18 +188,28 @@ public class CoffeeShopService {
      * @param client the client to be updated
      */
 
-    public void updateClient(Client client){
-        if(client == null){
-            System.out.println("Client is null");
-            return;
-        }
-        Client exists = clientRepo.read(client.getId());
-        if (exists != null) {
+    public void updateClient(Client client) {
+        try {
+            if (client == null) {
+                throw new ValidationException("Client cannot be null.", null);
+            }
+
+            // Check if the client exists in the database
+            Client exists = clientRepo.read(client.getId());
+            if (exists == null) {
+                throw new EntityNotFoundException("Client with ID " + client.getId() + " not found. Unable to update.", null);
+            }
+
+            // Perform the update
             clientRepo.update(client.getId(), client);
-        }else{
-            System.out.println("Client not found");
+            System.out.println("Client updated successfully.");
+        } catch (ValidationException | EntityNotFoundException e) {
+            throw e; // Re-throw specific exceptions for higher layers to handle.
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while updating the client in the database.", e);
         }
     }
+
 
     /**
      * Retrieves all clients from the repository.
@@ -200,21 +235,21 @@ public class CoffeeShopService {
      *
      * @param food the {@link Food} object to be added to the repository.
      */
-
     public void addFood(Food food) {
         try {
             if (food == null) {
-                System.out.println("Food is null");
-                return;
+                throw new ValidationException("Food cannot be null.", null);
             }
 
-
             foodRepo.create(food);
-            System.out.println("Food added successfully");
-        } catch (Exception e) {
-            System.out.println("Error adding food to repository: " + e.getMessage());
+            //System.out.println("Food added successfully.");
+        } catch (ValidationException e) {
+            throw e; // Re-throw specific exceptions for higher layers to handle
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while adding food to the database.", e);
         }
     }
+
 
     /**
      * Retrieves all {@link Food} items currently stored in the food repository.
@@ -239,13 +274,24 @@ public class CoffeeShopService {
      *
      * @param food the {@link Food} object to be added to the repository.
      */
-    public void deleteFood(Food food){
-        if(food == null){
-            System.out.println("Food is null");
-            return;
+    public void deleteFood(Food food) {
+        try {
+            if (food == null) {
+                throw new ValidationException("Food cannot be null.", null);
+            }
+
+            // Attempt to delete the food
+            foodRepo.delete(food.getId());
+            System.out.println("Food deleted successfully.");
+        } catch (ValidationException e) {
+            throw e; // Re-throw specific validation exceptions
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Food with ID " + food.getId() + " not found. Unable to delete.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while deleting food from the database.", e);
         }
-        foodRepo.delete(food.getId());
     }
+
 
     /**
      * Updates an existing {@link Food} item in the repository with new information.
@@ -258,19 +304,29 @@ public class CoffeeShopService {
      *
      * @param food the updated {@link Food} object to store in the repository.
      */
-    public void updateFood(Food food){
-        if(food == null){
-            System.out.println("Food is null");
-            return;
-        }
-        Food exists = foodRepo.read(food.getId());
-        if (exists != null) {
+    public void updateFood(Food food) {
+        try {
+            if (food == null) {
+                throw new ValidationException("Food cannot be null.", null);
+            }
+
+            Food exists = foodRepo.read(food.getId());
+            if (exists == null) {
+                throw new EntityNotFoundException("Food with ID " + food.getId() + " not found. Unable to update.", null);
+            }
+
+            // Update the food entity
             foodRepo.update(food.getId(), food);
-            System.out.println("Food updated successfully");
-        }else{
-            System.out.println("Food not found");
+            System.out.println("Food updated successfully.");
+        } catch (ValidationException e) {
+            throw e; // Pass specific validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Food with ID " + food.getId() + " does not exist in the database.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while updating food in the database.", e);
         }
     }
+
 
 
     //coffee operations
@@ -284,17 +340,18 @@ public class CoffeeShopService {
     public void addCoffee(Coffee coffee) {
         try {
             if (coffee == null) {
-                System.out.println("Coffee is null");
-                return;
+                throw new ValidationException("Coffee cannot be null.", null);
             }
 
             coffeeRepo.create(coffee);
-            System.out.println("Coffee added successfully");
-
-        } catch (Exception e) {
-            System.out.println("Error adding coffee to repository: " + e.getMessage());
+            System.out.println("Coffee added successfully.");
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while adding coffee to the database.", e);
         }
     }
+
 
     /**
      * Retrieves a list of all coffee items from the coffee repository.
@@ -324,13 +381,23 @@ public class CoffeeShopService {
      * @param coffee the {@link Coffee} object to be deleted
      *               <p>If {@code coffee} is null, an error message is displayed and the operation is not performed.</p>
      */
-    public void deleteCoffee(Coffee coffee){
-        if(coffee == null){
-            System.out.println("Coffee is null");
-            return;
+    public void deleteCoffee(Coffee coffee) {
+        try {
+            if (coffee == null) {
+                throw new ValidationException("Coffee cannot be null.", null);
+            }
+
+            coffeeRepo.delete(coffee.getId());
+            System.out.println("Coffee deleted successfully.");
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Coffee with ID " + coffee.getId() + " not found. Unable to delete.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while deleting coffee from the database.", e);
         }
-        coffeeRepo.delete(coffee.getId());
     }
+
 
     /**
      * Updates the information of an existing {@link Coffee} object in the repository.
@@ -344,20 +411,28 @@ public class CoffeeShopService {
      *               Must have a valid ID to be located in the repository.
      */
 
-    public void updateCoffee(Coffee coffee){
-        if(coffee == null){
-            System.out.println("Coffee is null");
-            return;
-        }
-        Coffee exists = coffeeRepo.read(coffee.getId());
-        if (exists != null) {
-            coffeeRepo.update(coffee.getId(), coffee);
-            System.out.println("Coffee updated successfully");
-        }else {
-            System.out.println("Coffee not found");
-        }
+    public void updateCoffee(Coffee coffee) {
+        try {
+            if (coffee == null) {
+                throw new ValidationException("Coffee cannot be null.", null);
+            }
 
+            Coffee exists = coffeeRepo.read(coffee.getId());
+            if (exists == null) {
+                throw new EntityNotFoundException("Coffee with ID " + coffee.getId() + " not found. Unable to update.", null);
+            }
+
+            coffeeRepo.update(coffee.getId(), coffee);
+            System.out.println("Coffee updated successfully.");
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Coffee with ID " + coffee.getId() + " does not exist in the database.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while updating coffee in the database.", e);
+        }
     }
+
 
     /**
      * Creates a new {@link Order} for a specific client using a list of food and coffee item IDs.
@@ -373,19 +448,53 @@ public class CoffeeShopService {
      * @return the newly created {@link Order} object with all specified products.
      */
     public Order addOrder(Integer clientID, List<Integer> foodIDs, List<Integer> coffeeIDs) {
-        List<Product> products = new ArrayList<>();
-        for (Integer foodID : foodIDs) {
-            Food food = getFoodById(foodID);
-            products.add(food);
-        }
-        for (Integer coffeeID : coffeeIDs) {
-            Coffee coffee = getCoffeeById(coffeeID);
-            products.add(coffee);
-        }
-        Order order = new Order(clientID, products);
+        try {
+            if (clientID == null) {
+                throw new ValidationException("Client ID cannot be null.", null);
+            }
+            if ((foodIDs == null || foodIDs.isEmpty()) && (coffeeIDs == null || coffeeIDs.isEmpty())) {
+                throw new ValidationException("Both food and coffee ID lists cannot be null or empty.", null);
+            }
 
-        orderRepo.create(order);
-        return order;
+            List<Product> products = new ArrayList<>();
+
+            // Process Food IDs
+            for (Integer foodID : foodIDs) {
+                if (foodID == null) {
+                    throw new ValidationException("Food ID cannot be null.", null);
+                }
+                Food food = getFoodById(foodID);
+                if (food == null) {
+                    throw new EntityNotFoundException("Food with ID " + foodID + " not found.", null);
+                }
+                products.add(food);
+            }
+
+            // Process Coffee IDs
+            for (Integer coffeeID : coffeeIDs) {
+                if (coffeeID == null) {
+                    throw new ValidationException("Coffee ID cannot be null.", null);
+                }
+                Coffee coffee = getCoffeeById(coffeeID);
+                if (coffee == null) {
+                    throw new EntityNotFoundException("Coffee with ID " + coffeeID + " not found.", null);
+                }
+                products.add(coffee);
+            }
+
+            // Create the order
+            Order order = new Order(clientID, products);
+            orderRepo.create(order);
+            System.out.println("Order created successfully.");
+            return order;
+
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Failed to add order due to missing products.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while adding the order to the database.", e);
+        }
     }
 
     /**
@@ -418,20 +527,33 @@ public class CoffeeShopService {
      * @param order the {@link Order} object containing the updated information.
      */
     public void updateOrder(Order order) {
-        if (order == null) {
-            System.out.println("Order is null");
-            return;}
+        try {
+            if (order == null) {
+                throw new ValidationException("Order cannot be null.", null);
+            }
 
-        Order exists = orderRepo.read(order.getId());
-        if (exists != null) {
+            // Check if the order exists
+            Order existingOrder = orderRepo.read(order.getId());
+            if (existingOrder == null) {
+                throw new EntityNotFoundException("Order with ID " + order.getId() + " not found.", null);
+            }
+
+            // Recalculate order details
             order.calculatePoints();
             order.calculateTotalCost();
+
+            // Update the order
             orderRepo.update(order.getId(), order);
-            System.out.println("Order updated successfully");
-        }else{
-            System.out.println("Order not found");
+            System.out.println("Order updated successfully.");
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Order update failed because the order was not found.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while updating the order in the database.", e);
         }
     }
+
 
     /**
      * Updates an existing {@link Order} in the repository with new data.
@@ -444,12 +566,22 @@ public class CoffeeShopService {
      * @param order the {@link Order} object containing the updated information.
      */
     public void deleteOrder(Order order) {
-        if (order == null) {
-            System.out.println("Order is null");
-            return;
+        try {
+            if (order == null) {
+                throw new ValidationException("Order cannot be null.", null);
+            }
+
+            orderRepo.delete(order.getId());
+            System.out.println("Order deleted successfully.");
+        } catch (ValidationException e) {
+            throw e; // Pass validation exception up
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("Order with ID " + order.getId() + " not found. Unable to delete.", e);
+        } catch (DataBaseException e) {
+            throw new BusinessLogicException("Error occurred while deleting the order from the database.", e);
         }
-        orderRepo.delete(order.getId());
     }
+
 
     //OFFER OPERATIONS
 
@@ -468,20 +600,47 @@ public class CoffeeShopService {
      * @return the newly created {@link Offer} object.
      */
     public Offer addOffer(List<Integer> foodIds, List<Integer> coffeeIds, int pointCost, String name) {
+        try {
+            // Input validation
+            if ((foodIds == null || foodIds.isEmpty()) && (coffeeIds == null || coffeeIds.isEmpty())) {
+                throw new ValidationException("An offer must include at least one product (food or coffee).", null);
+            }
+            if (pointCost <= 0) {
+                throw new ValidationException("Point cost must be a positive integer.", null);
+            }
+            if (name == null || name.isBlank()) {
+                throw new ValidationException("Offer name cannot be null or empty.", null);
+            }
 
-        List<Product> products = new ArrayList<>();
-        for (Integer foodID : foodIds) {
-            Food food = getFoodById(foodID);
-            products.add(food);
+            if(existsName(name)) {
+                throw new BusinessLogicException("Offer name already exists.", null);
+            }
+
+            // Prepare the list of products
+            List<Product> products = new ArrayList<>();
+            for (Integer foodID : foodIds) {
+                Food food = getFoodById(foodID); // Throws exception if not found
+                products.add(food);
+            }
+            for (Integer coffeeID : coffeeIds) {
+                Coffee coffee = getCoffeeById(coffeeID); // Throws exception if not found
+                products.add(coffee);
+            }
+
+            // Create and save the offer
+            Offer offer = new Offer(products, pointCost, name);
+            offerRepo.create(offer);
+
+            System.out.println("Offer created successfully: " + offer);
+            return offer;
+
+        } catch (EntityNotFoundException e) {
+            throw new BusinessLogicException("One or more products in the offer could not be found.", e);
+        } catch (Exception e) {
+            throw new DataBaseException("An error occurred while creating the offer.", e);
         }
-        for (Integer coffeeID : coffeeIds) {
-            Coffee coffee = getCoffeeById(coffeeID);
-            products.add(coffee);
-        }
-        Offer offer = new Offer(products, pointCost, name);
-        offerRepo.create(offer);
-        return offer;
     }
+
 
     /**
      * Retrieves an {@link Offer} from the repository by its ID.
@@ -519,11 +678,29 @@ public class CoffeeShopService {
      * @param offer the {@link Offer} to be deleted. If the offer is {@code null}, it will not be deleted.
      */
     public void deleteOffer(Offer offer) {
-        if (offer == null) {
-            System.out.println("Offer is null");
+        try {
+            // Validation: Check if the offer is null
+            if (offer == null) {
+                throw new ValidationException("The offer to delete cannot be null.", null);
+            }
+
+            // Check if the offer exists in the repository
+            Offer existingOffer = offerRepo.read(offer.getId());
+            if (existingOffer == null) {
+                throw new EntityNotFoundException("The offer with ID " + offer.getId() + " does not exist.", null);
+            }
+
+            // Proceed to delete
+            offerRepo.delete(offer.getId());
+            System.out.println("Offer deleted successfully: " + offer);
+
+        } catch (ValidationException | EntityNotFoundException e) {
+            throw e; // Rethrow validation and entity-specific exceptions for the controller to handle
+        } catch (Exception e) {
+            throw new DataBaseException("An error occurred while deleting the offer.", e);
         }
-        offerRepo.delete(offer.getId());
     }
+
 
     //OFFER ORDER OPERATIONS
     /**
@@ -538,16 +715,47 @@ public class CoffeeShopService {
      * @param clientId the ID of the {@link Client} making the purchase.
      * @return the created {@link OfferOrder} if the client has enough points; {@code null} if the points are insufficient.
      */
+    public void addOfferOrder(Integer offerId, Integer clientId) {
+        try {
+            Offer offer = getOfferById(offerId);
+            Client client = getClientById(clientId);
 
-    public OfferOrder addOfferOrder (Integer offerId, Integer clientId){
-        Offer offer = getOfferById(offerId);
-        Client client = getClientById(clientId);
+            if (offer == null || client == null) {
+                throw new EntityNotFoundException("Offer or Client not found.", null);
+            }
 
-        OfferOrder offerOrder = new OfferOrder(client, offer);
-        client.getCard().setCurrentPoints(client.getCard().getCurrentPoints()-offer.pointCost);
-        offerOrderRepo.create(offerOrder);
-        return offerOrder;
+            if (client.getCard().getCurrentPoints() < offer.getPointCost()) {
+                throw new BusinessLogicException("Not enough points to redeem the offer.", null);
+            }
+
+
+            // Save client changes to DB
+            clientRepo.update(clientId,client); // Ensure persistence here
+
+            OfferOrder offerOrder = new OfferOrder(client, offer);
+            offerOrderRepo.create(offerOrder);
+
+            //return offerOrder;
+        } catch (Exception e) {
+            throw new DataBaseException("Error during the offer redemption.", e);
+        }
     }
+
+    public boolean existsName(String offerName){
+        List<Offer> offers = offerRepo.getAll();
+        for (Offer offer : offers) {
+            if (offer.getName().equals(offerName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasEnoughPoints(Integer clientId, int pointCost) {
+        Client client = getClientById(clientId);
+        return client.getCard().getCurrentPoints() >= pointCost;
+    }
+
 
 
 }

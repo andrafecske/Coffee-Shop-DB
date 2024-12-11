@@ -1,5 +1,6 @@
 package org.example.Repository;
 
+import org.example.Exceptions.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -38,6 +39,23 @@ public class DBRepo<T extends HasID> implements IRepository<T> {
         }
     }
 
+ //   @Override
+//    public T read(Integer id) {
+//        Session session = sessionFactory.openSession();
+//        try {
+//            T entity = session.get(entityType, id); // Fetch the entity by ID
+//            if (entity == null) {
+//                throw new EntityNotFoundException(entityType.getSimpleName() + " with ID " + id + " not found.", null);
+//            }
+//            return entity;
+//        } catch (EntityNotFoundException e) {
+//            throw e;
+//        } catch (Exception e) {
+//            throw new DataBaseException("Error reading entity in the database.", e);
+//        } finally {
+//            session.close();
+//        }
+//    }
     @Override
     public T read(Integer id) {
         Session session = sessionFactory.openSession();
@@ -51,23 +69,29 @@ public class DBRepo<T extends HasID> implements IRepository<T> {
             session.close();
         }
     }
+
+
     @Override
     public void update(Integer id, T entity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
             T existingEntity = session.get(entityType, id); // Get existing entity
-            if (existingEntity != null) {
-                session.merge(entity); // Update the existing entity with new data
+            if (existingEntity == null) {
+                throw new EntityNotFoundException(entityType.getSimpleName() + " with ID " + id + " not found.", null);
             }
+            session.merge(entity); // Update the existing entity with new data
             transaction.commit();
+        } catch (EntityNotFoundException e) {
+            throw e; // Re-throw EntityNotFoundException for clarity
         } catch (Exception e) {
             transaction.rollback();
-            throw new DataBaseException("Error updating entity in the database", e);
+            throw new DataBaseException("Error updating entity in the database.", e);
         } finally {
             session.close();
         }
     }
+
 
     @Override
     public void delete(Integer id) {

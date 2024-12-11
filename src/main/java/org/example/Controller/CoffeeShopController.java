@@ -1,5 +1,6 @@
 package org.example.Controller;
 
+import org.example.Exceptions.*;
 import org.example.Utils.FoodType;
 import org.example.Utils.Role;
 import org.example.model.*;
@@ -32,7 +33,13 @@ public class CoffeeShopController {
             System.out.println("Admin is null");
             return;
         }
-        coffeeShopService.addAdmin(admin);
+        try{
+            coffeeShopService.addAdmin(admin);
+        }
+        catch (ValidationException e) {
+            System.out.println(e.getMessage());
+        }
+
         System.out.println("Admin added successfully");
     }
 
@@ -89,11 +96,11 @@ public class CoffeeShopController {
      * @param admin the admin with updated details.
      */
     public void updateAdmin(Admin admin) {
-        if(admin == null){
-            System.out.println("Admin is null");
-            return;}
-        coffeeShopService.updateAdmin(admin);
-        System.out.println("Admin updated successfully");
+        try {
+            coffeeShopService.updateAdmin(admin);
+        } catch (EntityNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -101,9 +108,24 @@ public class CoffeeShopController {
      *
      * @param admin the admin to be deleted.
      */
+//    public void deleteAdmin(Admin admin) {
+//        coffeeShopService.deleteAdmin(admin);
+//        System.out.println("Admin deleted successfully");
+//    }
+
     public void deleteAdmin(Admin admin) {
-        coffeeShopService.deleteAdmin(admin);
-        System.out.println("Admin deleted successfully");
+        try {
+            coffeeShopService.deleteAdmin(admin);
+         //   System.out.println("Admin deleted successfully.");
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
 
 
@@ -116,9 +138,17 @@ public class CoffeeShopController {
      * @param client the client to be added.
      */
     public void addClient(Client client) {
-        coffeeShopService.addClient(client);
-        System.out.println("Client added");
+        try {
+            coffeeShopService.addClient(client);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
 
     /**
@@ -183,9 +213,17 @@ public class CoffeeShopController {
      * @param client the client to be deleted.
      */
     public void deleteClient(Client client) {
-        coffeeShopService.deleteClient(client);
-        //System.out.println("Client deleted successfully");
+        try {
+            coffeeShopService.deleteClient(client);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     /**
      * Updates the details of an existing client.
@@ -193,8 +231,19 @@ public class CoffeeShopController {
      * @param client the client with updated details.
      */
     public void updateClient(Client client) {
-        coffeeShopService.updateClient(client);
+        try {
+            coffeeShopService.updateClient(client);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     //food operations
 
@@ -217,12 +266,17 @@ public class CoffeeShopController {
 
     public void addFood(Food food) {
         try {
-            coffeeShopService.addFood(food); // Call service method to add food
-            System.out.println("Food added");
+            coffeeShopService.addFood(food);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error adding food: " + e.getMessage());
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
+
     }
+
 
 
     /**
@@ -259,8 +313,17 @@ public class CoffeeShopController {
      * @param food the food to be deleted.
      */
     public void deleteFood(Food food) {
-        coffeeShopService.deleteFood(food);
+        try {
+            coffeeShopService.deleteFood(food);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     /**
      * Updates the details of an existing food item.
@@ -268,20 +331,35 @@ public class CoffeeShopController {
      * @param food the food with updated details.
      */
     public void updateFood(Food food) {
-        coffeeShopService.updateFood(food);
+        try {
+            coffeeShopService.updateFood(food);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     //coffee operations
 
 
     public void addCoffee(Coffee coffee) {
         try {
-            coffeeShopService.addCoffee(coffee); // Call service method to add coffee
-            System.out.println("Coffee added");
+            coffeeShopService.addCoffee(coffee);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Error adding coffee: " + e.getMessage());
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
 
     /**
@@ -305,18 +383,34 @@ public class CoffeeShopController {
      * @param coffee the coffee to be deleted.
      */
     public void deleteCoffee(Coffee coffee) {
-        coffeeShopService.deleteCoffee(coffee);
-        System.out.println("Coffee deleted successfully");
+        try {
+            coffeeShopService.deleteCoffee(coffee);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
     /**
      * Updates the details of an existing coffee.
      *
      * @param coffee the coffee with updated details.
      */
     public void updateCoffee(Coffee coffee) {
-        coffeeShopService.updateCoffee(coffee);
-        System.out.println("Coffee updated successfully");
+        try {
+            coffeeShopService.updateCoffee(coffee);
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     /**
      * Retrieves a coffee by its ID.
@@ -339,11 +433,42 @@ public class CoffeeShopController {
      * @return the created order.
      */
     public Order addOrder(Integer clientId, List<Integer> foodIds, List<Integer> coffeeIds) {
-        Order order = coffeeShopService.addOrder(clientId, foodIds, coffeeIds);
-        int currPoints = addPoints(clientId,order.getPoints());
-        System.out.println("Your current points: " + currPoints);
-        return order;
+        try {
+            // Input validation
+            if (clientId == null) {
+                throw new ValidationException("Client ID cannot be null.", null);
+            }
+
+            if ((foodIds == null || foodIds.isEmpty()) && (coffeeIds == null || coffeeIds.isEmpty())) {
+                throw new ValidationException("At least one product (food or coffee) must be provided to create an order.", null);
+            }
+
+            // Create the order
+            Order order = coffeeShopService.addOrder(clientId, foodIds, coffeeIds);
+
+            // Add points for the client
+            int currPoints = addPoints(clientId, order.getPoints());
+            System.out.println("Order created successfully: " + order);
+            System.out.println("Your current points: " + currPoints);
+
+            return order;
+
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (DataBaseException e) {
+            System.out.println("Database Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+
+        return null; // Return null in case of failure
     }
+
+
 
     /**
      * Deletes an order for a client.
@@ -352,10 +477,30 @@ public class CoffeeShopController {
      * @param clientId the ID of the client who placed the order.
      */
     public void deleteOrder(Order order, Integer clientId) {
-        int pointsToDelete = order.getPoints();
-        coffeeShopService.deleteOrder(order);
-        removePoints(clientId,pointsToDelete);
+        try {
+            if (order == null) {
+                throw new ValidationException("Order cannot be null.", null);
+            }
+            if (clientId == null) {
+                throw new ValidationException("Client ID cannot be null.", null);
+            }
+
+            // Delete the order through the service
+            int pointsToDelete = order.getPoints();
+            coffeeShopService.deleteOrder(order);
+
+            // Adjust client points
+            removePoints(clientId, pointsToDelete);
+            System.out.println("Order deleted and points updated successfully.");
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     /**
      * Updates an existing order for a client.
@@ -364,15 +509,51 @@ public class CoffeeShopController {
      * @param clientId the ID of the client who placed the order.
      */
     public void updateOrder(Order order, Integer clientId) {
-        int prevPoints = order.getPoints();
-        coffeeShopService.updateOrder(order);
-        int currPoints = order.getPoints();
-        removePoints(clientId,prevPoints);
-        Client client = coffeeShopService.getClientById(clientId);
-        Card card = client.getCard();
-        card.setCurrentPoints(card.getCurrentPoints() + currPoints);
+        try {
+            // Validate input
+            if (order == null) {
+                throw new ValidationException("Order cannot be null.", null);
+            }
 
+            if (clientId == null) {
+                throw new ValidationException("Client ID cannot be null.", null);
+            }
+
+            // Calculate previous points and update the order
+            int prevPoints = order.getPoints();
+            coffeeShopService.updateOrder(order);
+
+            // Calculate new points
+            int currPoints = order.getPoints();
+
+            // Adjust client's points
+            removePoints(clientId, prevPoints);
+
+            Client client = coffeeShopService.getClientById(clientId);
+            if (client == null) {
+                throw new EntityNotFoundException("Client not found for ID: " + clientId, null);
+            }
+
+            Card card = client.getCard();
+            if (card == null) {
+                throw new BusinessLogicException("Client does not have an associated card.", null);
+            }
+
+            card.setCurrentPoints(card.getCurrentPoints() + currPoints);
+            System.out.println("Order updated successfully. Current points: " + card.getCurrentPoints());
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (DataBaseException e) {
+            System.out.println("Database Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     /**
      * Retrieves an order by its ID.
@@ -500,9 +681,24 @@ public class CoffeeShopController {
      * @return the created offer.
      */
     public Offer addOffer(List<Integer> foodIds, List<Integer> coffeeIds, int pointCost, String name) {
-        return coffeeShopService.addOffer(foodIds, coffeeIds, pointCost, name);
+        try {
+            // Delegate to service
+            Offer offer = coffeeShopService.addOffer(foodIds, coffeeIds, pointCost, name);
+            System.out.println("Offer added successfully: " + offer);
+            return offer;
 
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (DataBaseException e) {
+            System.out.println("Database Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+        return null; // Return null in case of failure
     }
+
 
     /**
      * Lists all offers available in the system.
@@ -521,20 +717,84 @@ public class CoffeeShopController {
     }
 
 
+//    public void listAllOffersClients(Integer clientID) {
+//        List<Offer> offers = coffeeShopService.getAllOffers();
+//        Client client = coffeeShopService.getClientById(clientID);
+//        List<Offer> availableOffers = new ArrayList<Offer>();
+//        if(offers.isEmpty()) {
+//            System.out.println("No offer found");
+//        }
+//        else {
+//            System.out.println("Offer list:");
+//            for(Offer offer : offers) {
+//                if(offer.pointCost < client.getCard().getCurrentPoints())
+//                    availableOffers.add(offer);
+//            }
+//        }
+//        if(availableOffers.isEmpty()) {
+//            System.out.println("You cannot afford any offers. Press enter to proceed.");
+//        }
+//        else
+//        {
+//            for(Offer offer : availableOffers) {
+//                System.out.println(offer);
+//            }
+//        }
+//    }
+
+//    public void listAllOffersClients(Integer clientID) {
+//        List<Offer> offers = coffeeShopService.getAllOffers();
+//        Client client = coffeeShopService.getClientById(clientID);
+//        if(offers.isEmpty()) {
+//            System.out.println("No offer found");
+//        }
+//        else {
+//            System.out.println("Offer list:");
+//            for(Offer offer : offers) {
+//                if(offer.pointCost < client.getCard().getCurrentPoints())
+//                {System.out.println(offer.clientView());}
+//            }
+//        }
+//    }
+
     public void listAllOffersClients(Integer clientID) {
         List<Offer> offers = coffeeShopService.getAllOffers();
         Client client = coffeeShopService.getClientById(clientID);
-        if(offers.isEmpty()) {
-            System.out.println("No offer found");
+
+        if (client == null) {
+            System.out.println("Client not found.");
+            return;
         }
-        else {
-            System.out.println("Offer list:");
-            for(Offer offer : offers) {
-                if(offer.pointCost < client.getCard().getCurrentPoints())
-                {System.out.println(offer.clientView());}
+
+        if (client.getCard() == null) {
+            System.out.println("Error: Client does not have a valid card.");
+            return;
+        }
+
+        List<Offer> availableOffers = new ArrayList<>();
+
+        if (offers == null || offers.isEmpty()) {
+            System.out.println("No offers found.");
+            return;
+        }
+
+        // Filter offers the client can afford based on points balance
+        for (Offer offer : offers) {
+            if (offer.getPointCost() <= client.getCard().getCurrentPoints()) {
+                availableOffers.add(offer);
+            }
+        }
+
+        if (availableOffers.isEmpty()) {
+            System.out.println("You cannot afford any offers. Press enter to proceed.");
+        } else {
+            System.out.println("Available Offers you can afford:");
+            for (Offer offer : availableOffers) {
+                System.out.println(offer);
             }
         }
     }
+
 
     public List<Offer> getAllOffers(){
         return coffeeShopService.getAllOffers();
@@ -555,10 +815,23 @@ public class CoffeeShopController {
      *
      * @param offer the offer to be deleted.
      */
-
     public void deleteOffer(Offer offer) {
-        coffeeShopService.deleteOffer(offer);
+        try {
+            // Delegate to the service layer
+            coffeeShopService.deleteOffer(offer);
+            System.out.println("Offer deleted successfully: " + offer);
+
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            System.out.println("Entity Not Found Error: " + e.getMessage());
+        } catch (DataBaseException e) {
+            System.out.println("Database Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
     }
+
 
     //OFFER ORDER OPERATIONS
 
@@ -576,6 +849,38 @@ public class CoffeeShopController {
         removePoints(clientId, offer.getPointCost());
     }
 
+//    public void addOfferOrder(Integer offerId, Integer clientId) {
+//        try {
+//            Offer offer = getOfferById(offerId);
+//
+//            if (offer == null) {
+//                throw new EntityNotFoundException("Offer not found with ID: " + offerId, null);
+//            }
+//
+//            if (clientId == null) {
+//                throw new ValidationException("Client ID cannot be null", null);
+//            }
+//
+////            // Handle points validation explicitly through logic
+////            if (coffeeShopService.hasEnoughPoints(clientId, offer.getPointCost())) {
+////                return coffeeShopService.addOfferOrder(offerId, clientId);
+////            } else {
+////                throw new BusinessLogicException("Client does not have enough points to redeem the offer.", null);
+////            }
+//
+//        } catch (ValidationException e) {
+//            System.out.println("Validation Error: " + e.getMessage());
+//        } catch (EntityNotFoundException e) {
+//            System.out.println("Entity Not Found Error: " + e.getMessage());
+//        } catch (BusinessLogicException e) {
+//            System.out.println("Business Logic Error: " + e.getMessage());
+//        } catch (DataBaseException e) {
+//            System.out.println("Database Error: " + e.getMessage());
+//        } catch (Exception e) {
+//            System.out.println("An unexpected error occurred: " + e.getMessage());
+//        }
+//
+//    }
 
 
 }

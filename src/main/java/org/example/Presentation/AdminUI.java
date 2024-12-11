@@ -1,6 +1,8 @@
 package org.example.Presentation;
 
 import org.example.Controller.CoffeeShopController;
+import org.example.Exceptions.BusinessLogicException;
+import org.example.Exceptions.ValidationException;
 import org.example.Utils.FoodType;
 import org.example.Utils.MilkType;
 import org.example.Utils.Role;
@@ -339,7 +341,12 @@ public class AdminUI {
 
                 case "3":
                     System.out.println("Current active offers: ");
-                    viewOffers();
+                    List<Offer> offers = controller.getAllOffers();
+                    for (Offer off : offers) {
+                        System.out.println(off);
+                        System.out.println(off.offerID + "id of the offer from above");
+                    }
+                    //viewOffers();
                     deleteOffer(scanner);
                     break;
 
@@ -357,32 +364,64 @@ public class AdminUI {
 
     private void addAdmin(Scanner scanner) {
         try {
-
             System.out.print("Enter Admin Age: ");
-            int age = Integer.parseInt(scanner.nextLine());
+            String ageInput = scanner.nextLine().trim();
+            if (ageInput.isEmpty()) {
+                System.out.println("Age cannot be empty.");
+                return;
+            }
+            int age = Integer.parseInt(ageInput);
+
+            if (age < 0) {
+                System.out.println("Age cannot be negative.");
+                return;
+            }
 
             System.out.print("Enter Admin Name: ");
-            String name = scanner.nextLine();
+            String name = scanner.nextLine().trim();
+            if (name.isEmpty()) {
+                System.out.println("Name cannot be empty.");
+                return;
+            }
 
-            System.out.print("Enter Admin Role (Manager/Client Manager/Product manager): ");
-            String roleInput = scanner.nextLine();
+            if (name.matches(".*\\d.*"))
+            {
+                System.out.println("Name cannot contain digits.");
+                return;
+            }
+
+            System.out.print("Enter Admin Role (Manager/ProductManager/ClientManager): ");
+            String roleInput = scanner.nextLine().trim();
+            if (roleInput.isEmpty()) {
+                System.out.println("Role cannot be empty.");
+                return;
+            }
+
             Role role;
-
-            // Check if input matches a valid role
             if ("Manager".equalsIgnoreCase(roleInput)) {
                 role = Role.Manager;
             } else if ("ProductManager".equalsIgnoreCase(roleInput)) {
                 role = Role.ProductManager;
-            } else {
+            } else if ("ClientManager".equalsIgnoreCase(roleInput)) {
                 role = Role.ClientManager;
+            } else {
+                System.out.println("Invalid role. Please enter one of: Manager, ProductManager, ClientManager.");
+                return;
             }
 
             // Create a new Admin and add it using the controller
             Admin admin = new Admin(age, name, role);
             controller.addAdmin(admin);
+          //  System.out.println("Admin added successfully!");
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter numbers for ID and age.");
+            System.out.println("Invalid input. Please enter a valid number for age.");
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
 
@@ -395,7 +434,12 @@ public class AdminUI {
     private void updateAdmin(Scanner scanner) {
         try {
             System.out.print("Enter the ID of the Admin to update: ");
-            int id = Integer.parseInt(scanner.nextLine());
+            String idInput = scanner.nextLine().trim();
+            if (idInput.isEmpty()) {
+                System.out.println("Admin ID cannot be empty.");
+                return;
+            }
+            int id = Integer.parseInt(idInput);
 
             // Retrieve the existing Admin
             Admin existingAdmin = controller.getAdminById(id);
@@ -406,18 +450,33 @@ public class AdminUI {
 
             // Prompt for Age
             System.out.print("Enter new Age (or press Enter to keep " + existingAdmin.getAge() + "): ");
-            String ageInput = scanner.nextLine();
-            int age = ageInput.isEmpty() ? existingAdmin.getAge() : Integer.parseInt(ageInput);
+            String ageInput = scanner.nextLine().trim();
+            int age;
+            if (ageInput.isEmpty()) {
+                age = existingAdmin.getAge();
+            } else {
+                age = Integer.parseInt(ageInput);
+                if (age <= 0) {
+                    System.out.println("Age must be greater than 0.");
+                    return;
+                }
+            }
 
             // Prompt for Name
             System.out.print("Enter new Name (or press Enter to keep '" + existingAdmin.getName() + "'): ");
-            String nameInput = scanner.nextLine();
+            String nameInput = scanner.nextLine().trim();
             String name = nameInput.isEmpty() ? existingAdmin.getName() : nameInput;
 
             // Prompt for Role
-            System.out.print("Enter new Role (or press Enter to keep " + existingAdmin.getRole() + "): ");
-            String roleInput = scanner.nextLine();
-            Role role = giveRole(roleInput, existingAdmin.getRole());
+            System.out.print("Enter new Role (Manager/ProductManager/ClientManager) (or press Enter to keep "
+                    + existingAdmin.getRole() + "): ");
+            String roleInput = scanner.nextLine().trim();
+            Role role;
+            if (roleInput.isEmpty()) {
+                role = existingAdmin.getRole();
+            } else {
+                role = giveRole(roleInput, existingAdmin.getRole());
+            }
 
             // Update the Admin
             Admin updatedAdmin = new Admin(age, name, role);
@@ -426,11 +485,18 @@ public class AdminUI {
             System.out.println("Admin updated successfully.");
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a valid number for age.");
+            System.out.println("Invalid input. Please enter a valid number for ID or age.");
         } catch (IllegalArgumentException e) {
-            System.out.println("Invalid role input. Please enter a valid role.");
+            System.out.println("Invalid role input. Please enter a valid role (Manager, ProductManager, ClientManager).");
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
 
     private Role giveRole(String roleInput, Role currentRole) {
@@ -450,26 +516,44 @@ public class AdminUI {
         }
     }
 
-
     private void deleteAdmin(Scanner scanner) {
         try {
             System.out.print("Enter the ID of the Admin to delete: ");
-            int id = Integer.parseInt(scanner.nextLine());
+            String idInput = scanner.nextLine().trim();
+            if (idInput.isEmpty()) {
+                System.out.println("Admin ID cannot be empty.");
+                return;
+            }
 
+            int id = Integer.parseInt(idInput);
+
+            // Retrieve the Admin object to delete
             Admin adminToDelete = controller.getAdminById(id);
 
             if (adminToDelete != null) {
-                controller.deleteAdmin(adminToDelete);  // Pass the Admin object to delete
-                System.out.println("Admin with ID " + id + " has been deleted.");
+                System.out.println("Are you sure you want to delete Admin: " + adminToDelete.getName() + " (ID: " + id + ")? (yes/no)");
+                String confirmation = scanner.nextLine().trim().toLowerCase();
+
+                if ("yes".equals(confirmation)) {
+                    controller.deleteAdmin(adminToDelete); // Pass the Admin object to delete
+                    System.out.println("Admin with ID " + id + " has been deleted.");
+                } else {
+                    System.out.println("Deletion canceled.");
+                }
             } else {
                 System.out.println("Admin with ID " + id + " not found.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number for ID.");
+            System.out.println("Invalid input. Please enter a valid number for the ID.");
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
-
 
     /**
      * Adds a new client to the system by prompting the user for the client's ID, age, and name.
@@ -480,27 +564,59 @@ public class AdminUI {
 
     private void addClient(Scanner scanner) {
         try {
-            System.out.println("Enter Client ID:");
-            int id = Integer.parseInt(scanner.nextLine()); // Validate numeric input for ID
+            // Prompt and validate Client ID
+//            System.out.print("Enter Client ID: ");
+//            String idInput = scanner.nextLine().trim();
+//            if (idInput.isEmpty()) {
+//                System.out.println("Client ID cannot be empty.");
+//                return;
+//            }
+//            int id = Integer.parseInt(idInput);
 
-            System.out.println("Enter Age:");
-            int age = Integer.parseInt(scanner.nextLine()); // Validate numeric input for Age
+            // Prompt and validate Age
+            System.out.print("Enter Age: ");
+            String ageInput = scanner.nextLine().trim();
+            if (ageInput.isEmpty()) {
+                System.out.println("Age cannot be empty.");
+                return;
+            }
+            int age = Integer.parseInt(ageInput);
+            if (age <= 0) {
+                System.out.println("Age must be a positive number.");
+                return;
+            }
 
-            System.out.println("Enter Name:");
-            String name = scanner.nextLine(); // Read Name input
+            // Prompt and validate Name
+            System.out.print("Enter Name: ");
+            String name = scanner.nextLine().trim();
+            if (name.isEmpty()) {
+                System.out.println("Name cannot be empty.");
+                return;
+            }
+            if (name.matches(".*\\d.*"))
+            {
+                System.out.println("Name cannot contain digits.");
+                return;
+            }
 
+            // Create and add the client
             Client client = new Client(age, name); // Create Client object
-            controller.addClient(client); // Add client using the controller
-            System.out.println("Client's ID: " + client.getId() );
+            controller.addClient(client);         // Add client using the controller
+
+            // Display success message
+            System.out.println("Client added successfully! Client's ID: " + client.getId());
 
         } catch (NumberFormatException e) {
             System.out.println("Invalid input! Please enter a valid numeric value for ID and Age.");
-        } catch (NullPointerException e) {
-            System.out.println("Error: Missing data. Please ensure all fields are filled out.");
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (BusinessLogicException e) {
+            System.out.println("Business Logic Error: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
     /**
      * Updates the details of an existing client by prompting the user for the client's ID, age, and name.
@@ -511,36 +627,57 @@ public class AdminUI {
      */
     private void updateClient(Scanner scanner) {
         try {
+            // Prompt for Client ID
             System.out.print("Enter the ID of the Client to update: ");
-            int id = Integer.parseInt(scanner.nextLine());
+            String idInput = scanner.nextLine().trim();
+//            if (idInput.isEmpty()) {
+//                System.out.println("Client ID cannot be empty.");
+//                return;
+//            }
+            int id = Integer.parseInt(idInput);
 
             // Retrieve the existing Client
             Client existingClient = controller.getClientById(id);
-            if (existingClient == null) {
-                System.out.println("Client with ID " + id + " not found.");
-                return;
+//            if (existingClient == null) {
+//                System.out.println("Client with ID " + id + " not found.");
+//                return;
+//            }
+
+            // Prompt for new Age
+            System.out.print("Enter new Age (or press Enter to keep " + existingClient.getAge() + "): ");
+            String ageInput = scanner.nextLine().trim();
+            int age;
+            if (ageInput.isEmpty()) {
+                age = existingClient.getAge();
+            } else {
+                age = Integer.parseInt(ageInput);
+                if (age <= 0) {
+                    System.out.println("Age must be a positive number.");
+                    return;
+                }
             }
 
-            // Prompt for Age
-            System.out.print("Enter new Age (or press Enter to keep " + existingClient.getAge() + "): ");
-            String ageInput = scanner.nextLine();
-            int age = ageInput.isEmpty() ? existingClient.getAge() : Integer.parseInt(ageInput);
-
-            // Prompt for Name
+            // Prompt for new Name
             System.out.print("Enter new Name (or press Enter to keep '" + existingClient.getName() + "'): ");
-            String nameInput = scanner.nextLine();
+            String nameInput = scanner.nextLine().trim();
             String name = nameInput.isEmpty() ? existingClient.getName() : nameInput;
 
             // Update the Client
             Client updatedClient = new Client(age, name);
             updatedClient.setId(id); // Retain the same ID
             controller.updateClient(updatedClient);
+
+            // Display success message
             System.out.println("Client updated successfully.");
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a valid number for age.");
+            System.out.println("Invalid input. Please enter a valid number for age or ID.");
+        } catch (NullPointerException e) {
+            System.out.println("Error: Missing client details. Please ensure all fields are valid.");
+        } catch (ValidationException e) {
+            System.out.println("Validation Error: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
 
@@ -554,22 +691,40 @@ public class AdminUI {
      */
     private void deleteClient(Scanner scanner) {
         try {
+            // Prompt for Client ID
             System.out.print("Enter the ID of the Client to delete: ");
-            int id = Integer.parseInt(scanner.nextLine());
+            String idInput = scanner.nextLine().trim();
+            if (idInput.isEmpty()) {
+                System.out.println("Client ID cannot be empty.");
+                return;
+            }
 
+            int id = Integer.parseInt(idInput);
+
+            // Retrieve the Client to delete
             Client clientToDelete = controller.getClientById(id);
 
             if (clientToDelete != null) {
-                controller.deleteClient(clientToDelete);  // Pass the Admin object to delete
-                System.out.println("Client with ID " + id + " has been deleted.");
+                // Confirm deletion
+                System.out.print("Are you sure you want to delete Client with ID " + id + " (yes/no)? ");
+                String confirmation = scanner.nextLine().trim().toLowerCase();
+                if (confirmation.equals("yes")) {
+                    controller.deleteClient(clientToDelete);  // Pass the Client object to delete
+                    System.out.println("Client with ID " + id + " has been deleted.");
+                } else {
+                    System.out.println("Deletion canceled.");
+                }
             } else {
                 System.out.println("Client with ID " + id + " not found.");
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number for ID.");
+            System.out.println("Invalid input. Please enter a valid numeric ID.");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
 
 
@@ -583,46 +738,62 @@ public class AdminUI {
 
     private void addFood(Scanner scanner) {
         try {
+            // Prompt for Food Name
             System.out.println("Enter Food Name:");
-            String name = scanner.nextLine(); // Get Food Name
-
-            System.out.println("Enter Food Points:");
-            int points = Integer.parseInt(scanner.nextLine()); // Parse Points
-
-            System.out.println("Enter Food price:");
-            int price = Integer.parseInt(scanner.nextLine()); // Parse Price
-
-            System.out.print("Enter FoodType (SNACK/SANDWICH/DESSERT/MEAL): ");
-            String typeInput = scanner.nextLine();
-            FoodType type;
-
-            // Parse the food type
-            if ("SNACK".equalsIgnoreCase(typeInput)) {
-                type = FoodType.SNACK;
-            } else if ("SANDWICH".equalsIgnoreCase(typeInput)) {
-                type = FoodType.SANDWICH;
-            } else if ("DESSERT".equalsIgnoreCase(typeInput)) {
-                type = FoodType.DESSERT;
-            } else if ("MEAL".equalsIgnoreCase(typeInput)) {
-                type = FoodType.MEAL;
-            } else {
-                System.out.println("Invalid input. Please enter a valid food type.");
-                return; // Exit the method if the food type is invalid
+            String name = scanner.nextLine().trim();
+            if (name.isEmpty()) {
+                System.out.println("Food name cannot be empty.");
+                return;
             }
 
-            // Create a Food object and pass it to the controller
+            // Prompt for Food Points
+            System.out.println("Enter Food Points:");
+            String pointsInput = scanner.nextLine().trim();
+            if (pointsInput.isEmpty()) {
+                System.out.println("Food points cannot be empty.");
+                return;
+            }
+            int points = Integer.parseInt(pointsInput);
+
+            // Prompt for Food Price
+            System.out.println("Enter Food Price:");
+            String priceInput = scanner.nextLine().trim();
+            if (priceInput.isEmpty()) {
+                System.out.println("Food price cannot be empty.");
+                return;
+            }
+            int price = Integer.parseInt(priceInput);
+
+            // Prompt for Food Type
+            System.out.print("Enter FoodType (SNACK/SANDWICH/DESSERT/MEAL): ");
+            String typeInput = scanner.nextLine().trim().toUpperCase();
+            if (typeInput.isEmpty()) {
+                System.out.println("Food type cannot be empty.");
+                return;
+            }
+
+            FoodType type;
+            try {
+                type = FoodType.valueOf(typeInput);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid input. Please enter one of the following: SNACK, SANDWICH, DESSERT, MEAL.");
+                return;
+            }
+
+            // Create Food object and add it using the controller
             Food food = new Food(price, points, name, type);
             System.out.println("Saving food: " + food);
 
-            controller.addFood(food); // Call controller method to add food
-            System.out.println("Food added successfully");
+            controller.addFood(food); // Add food via controller
+            System.out.println("Food added successfully!");
 
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input! Please enter a valid numeric value for ID, Points, and Price.");
+            System.out.println("Invalid input! Please enter valid numeric values for Points and Price.");
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
 
     /**
@@ -635,21 +806,32 @@ public class AdminUI {
     private void deleteFood(Scanner scanner) {
         try {
             System.out.print("Enter the ID of the Food to delete: ");
-            int id = Integer.parseInt(scanner.nextLine());
+            String idInput = scanner.nextLine().trim();
 
+            // Validate input for empty string
+            if (idInput.isEmpty()) {
+                System.out.println("Food ID cannot be empty.");
+                return;
+            }
+
+            // Parse ID and validate numeric input
+            int id = Integer.parseInt(idInput);
+
+            // Retrieve the food item to delete
             Food foodToDelete = controller.getFoodById(id);
-
             if (foodToDelete != null) {
-                controller.deleteFood(foodToDelete);  // Pass the Admin object to delete
+                controller.deleteFood(foodToDelete); // Delete food item
                 System.out.println("Food with ID " + id + " has been deleted.");
             } else {
                 System.out.println("Food with ID " + id + " not found.");
             }
-
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number for ID.");
+            System.out.println("Invalid input! Please enter a valid numeric ID.");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
     private void updateFood(Scanner scanner) {
         try {
@@ -772,25 +954,35 @@ public class AdminUI {
      *
      * @param scanner The Scanner used for user input.
      */
-    private void deleteCoffee(Scanner scanner){
+    private void deleteCoffee(Scanner scanner) {
         try {
             System.out.print("Enter the ID of the Coffee to delete: ");
-            int id = Integer.parseInt(scanner.nextLine());
+            String idInput = scanner.nextLine().trim();
 
+            // Validate input for empty string
+            if (idInput.isEmpty()) {
+                System.out.println("Coffee ID cannot be empty.");
+                return;
+            }
+
+            // Parse ID and validate numeric input
+            int id = Integer.parseInt(idInput);
+
+            // Retrieve the coffee item to delete
             Coffee coffeeToDelete = controller.getCoffeeById(id);
-
             if (coffeeToDelete != null) {
-                controller.deleteCoffee(coffeeToDelete);  // Pass the Admin object to delete
+                controller.deleteCoffee(coffeeToDelete); // Delete coffee item
                 System.out.println("Coffee with ID " + id + " has been deleted.");
             } else {
                 System.out.println("Coffee with ID " + id + " not found.");
             }
-
         } catch (NumberFormatException e) {
-            System.out.println("Invalid input. Please enter a number for ID.");
+            System.out.println("Invalid input! Please enter a valid numeric ID.");
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
         }
-
     }
+
 
     private void updateCoffee(Scanner scanner) {
         try {
@@ -876,6 +1068,8 @@ public class AdminUI {
     public void viewOffers(){
         controller.listAllOffers();
     }
+
+
 
     public List<Integer> offerFood(Scanner scanner) {
         List<Integer> foods = new ArrayList<>();

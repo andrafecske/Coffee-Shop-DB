@@ -104,16 +104,38 @@ public class Offer implements HasID {
      *
      * @return a string representation of the offer
      */
+    //@Override
+//    public String toString() {
+//        StringBuilder productsString = new StringBuilder();
+//        for (Product product : products) {
+//            productsString.append(product.getName()).append(", ");
+//        }
+//        productsString.delete(productsString.length() - 1, productsString.length());
+//
+//        return "offerID=" + offerID +"\n"+ "products:"+ "\n" + productsString + "\n"+ "pointCost = " +pointCost + "\n";
+//    }
     @Override
     public String toString() {
         StringBuilder productsString = new StringBuilder();
-        for (Product product : products) {
-            productsString.append(product.getName()).append(", ");
-        }
-        productsString.delete(productsString.length() - 1, productsString.length());
 
-        return "offerID=" + offerID +"\n"+ "products:"+ "\n" + productsString + "\n"+ "pointCost = " +pointCost + "\n";
+        if (products != null && !products.isEmpty()) {
+            for (Product product : products) {
+                productsString.append(product.getName()).append(", ");
+            }
+
+            // Remove trailing ", " safely
+            if (productsString.length() >= 2) {
+                productsString.setLength(productsString.length() - 2);
+            }
+        } else {
+            productsString.append("No products available");
+        }
+
+        return "offer name " + name + "\n" +
+                "products: \n" + productsString + "\n" +
+                "pointCost = " + pointCost + "\n";
     }
+
 
     public String clientView(){
         return "name=" + name +"\n" + "point cost=" + pointCost + "\n";
