@@ -30,6 +30,8 @@ abstract class Person implements HasID {
      * The name of the person.
      */
     protected String name;
+    protected String email;
+    protected String password;
 
     /**
      * Constructs a new {@code Person} with the specified ID, age, and name.
@@ -41,6 +43,14 @@ abstract class Person implements HasID {
 
         this.age = age;
         this.name = name;
+    }
+
+    public Person(int age, String name, String email, String password) {
+
+        this.age = age;
+        this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
     public Person() {
@@ -124,5 +134,19 @@ abstract class Person implements HasID {
     @Override
     public void setId(int andIncrement) {
         this.ID = andIncrement; // Assign the provided ID value
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

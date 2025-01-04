@@ -33,11 +33,54 @@ public class CoffeeShopService {
 
     //admin operations
     public void addAdmin(Admin admin) {
-        if(admin.getAge() <=0 )
+        if (admin.getAge() <= 0) {
             throw new ValidationException("Admin age cannot be less than or equal to zero.", null);
+        }
 
+        if (admin.getName().isEmpty()) {
+            throw new ValidationException("Admin name cannot be empty.", null);
+        }
+
+        if (admin.getName().matches(".*\\d.*")) {
+            throw new ValidationException("Admin name cannot contain digits.", null);
+        }
+
+        if (admin.getEmail().isEmpty()) {
+            throw new ValidationException("Admin email cannot be empty.", null);
+        }
+
+        // Basic email format validation
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        if (!admin.getEmail().matches(emailRegex)) {
+            throw new ValidationException("Invalid email format.", null);
+        }
+
+        if (admin.getPassword().isEmpty()) {
+            throw new ValidationException("Admin password cannot be empty.", null);
+        }
+
+        // Add the admin to the repository
         adminRepo.create(admin);
     }
+
+
+    private boolean isAdminDuplicate(Admin ad) {
+        if (ad== null || ad.getEmail() == null) {
+            throw new ValidationException("Client or client email cannot be null.", null);
+        }
+
+        // Check if email exists in Admin list
+        boolean existsInAdmins = adminRepo.getAll().stream()
+                .anyMatch(admin -> ad.getEmail().equalsIgnoreCase(admin.getEmail()));
+
+        // Check if email exists in Client list
+        boolean existsInClients = clientRepo.getAll().stream()
+                .anyMatch(existingClient -> ad.getEmail().equalsIgnoreCase(existingClient.getEmail()));
+
+        return existsInAdmins || existsInClients;
+    }
+
+
 
     /**
      * Retrieves all admins from the repository.
@@ -96,6 +139,16 @@ public class CoffeeShopService {
         return adminRepo.read(adminId);
     }
 
+    public Admin getAdminByEmail(String email) {
+        for (Admin admin : adminRepo.getAll()) {
+            if (admin.getEmail() != null && admin.getEmail().equalsIgnoreCase(email)) {
+                return admin;
+            }
+        }
+        throw new EntityNotFoundException("User with email " + email + " not found.", null);
+    }
+
+
 
     //client operations
 
@@ -105,31 +158,34 @@ public class CoffeeShopService {
      * @param client the client to be added
      */
     public void addClient(Client client) {
+        if (client == null) {
+            throw new ValidationException("Client cannot be null.", null);
+        }
+
+        if (client.getName().matches(".*\\d.*")) {
+            throw new ValidationException("Name cannot contain numeric values.", null);
+        }
+
+        if (client.getAge() <= 0) {
+            throw new ValidationException("Client age must be greater than zero.", null);
+        }
+
+        if (isClientDuplicate(client)) {
+            throw new BusinessLogicException("Cannot create client. A user with the same email already exists.", null);
+        }
+
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        if (!client.getEmail().matches(emailRegex)) {
+            throw new ValidationException("Invalid email format.", null);
+        }
+
         try {
-            if (client == null) {
-                throw new ValidationException("Client cannot be null.", null);
-            }
-
-            if(client.getName().matches(".*\\d.*"))
-            {
-                throw new ValidationException("name cannot be numeric", null);
-            }
-
-            if(client.getAge() <=0 )
-                throw new ValidationException ("Client age cannot be less than or equal to zero.", null);
-
-            if (isAdminDuplicate(client)) {
-                throw new BusinessLogicException("Cannot create client. An admin with the same name and ID already exists.", null);
-            }
-
             clientRepo.create(client);
-            //System.out.println("Client added successfully.");
-        } catch (ValidationException | BusinessLogicException e) {
-            throw e; // Re-throw specific exceptions for higher layers to handle.
         } catch (DataBaseException e) {
             throw new BusinessLogicException("Error occurred while adding the client to the database.", e);
         }
     }
+
 
 
 
@@ -140,15 +196,24 @@ public class CoffeeShopService {
      * @return {@code true} if there is a duplicate, {@code false} otherwise
      */
 
-    private boolean isAdminDuplicate(Client client){
-        List<Admin> admins = adminRepo.getAll();
-        for(Admin admin : admins){
-            if(admin.getName().equals(client.getName()) && admin.getId().equals(client.getId())){
-                return true;
-            }
+    private boolean isClientDuplicate(Client client) {
+        if (client == null || client.getEmail() == null) {
+            throw new ValidationException("Client or client email cannot be null.", null);
         }
-        return false;
+
+        // Check if email exists in Admin list
+        boolean existsInAdmins = adminRepo.getAll().stream()
+                .anyMatch(admin -> client.getEmail().equalsIgnoreCase(admin.getEmail()));
+
+        // Check if email exists in Client list
+        boolean existsInClients = clientRepo.getAll().stream()
+                .anyMatch(existingClient -> client.getEmail().equalsIgnoreCase(existingClient.getEmail()));
+
+        return existsInAdmins || existsInClients;
     }
+
+
+
 
     /**
      * Retrieves a client by their ID.
@@ -158,6 +223,15 @@ public class CoffeeShopService {
      */
     public Client getClientById(int id){
         return clientRepo.read(id);
+    }
+
+    public Client getClientByEmail(String email) {
+        for (Client client : clientRepo.getAll()) {
+            if (client.getEmail() != null && client.getEmail().equals(email)) {
+                return client;
+            }
+        }
+        throw new EntityNotFoundException("Client with email " + email + " not found.", null);
     }
 
     /**

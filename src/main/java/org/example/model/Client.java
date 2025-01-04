@@ -25,6 +25,11 @@ public class Client extends Person {
         this.card = new Card();
     }
 
+    public Client(int age, String name, String email, String password) {
+        super(age, name, email, password);
+        this.card = new Card();
+    }
+
     public Client() {
     }
 

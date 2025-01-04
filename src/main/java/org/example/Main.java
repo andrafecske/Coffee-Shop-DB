@@ -58,25 +58,10 @@ public class Main {
         mainUI.start();
 
 
-//       Client client = new Client(23, "tanti");
-//       coffeeShopController.addClient(client);
+       // Admin admin3 = new Admin(26, "Gina", Role.Manager, "reginaGina@gmail.com", "hotwheels" );
 
-//        Food food = new Food(40, 57, "Burger", FoodType.MEAL);
-//        coffeeShopController.addFood(food);
-//
-//        Food food1 = new Food(30, 60, "Velvet Cake", FoodType.DESSERT);
-//        coffeeShopController.addFood(food1);
-//
-//        Coffee coffee = new Coffee(20, 25, "Matcha", false, MilkType.OAT);
-//        coffeeShopController.addCoffee(coffee);
-
-
-        //Admin admin = new Admin(30, "Alexandra", Role.Manager);
-      //  coffeeShopController.addAdmin(admin);
-
-
-
-
+//        Client client2 = new Client(30, "William", "willsmith@yahoo.com", "polarbear4");
+       //coffeeShopController.addAdmin(admin3);
         scanner.close();
 
 

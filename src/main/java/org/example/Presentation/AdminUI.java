@@ -335,8 +335,12 @@ public class AdminUI {
                     int points = Integer.parseInt(scanner.nextLine());
                     System.out.println("What is the offer's name?");
                     String name = scanner.nextLine();
+                    try{
                     Offer offer = controller.addOffer(foods, coffees, points, name);
-                    System.out.println("Offer added successfully!" + "\n" + offer + "Offer ID:" + offer.getId());
+                    System.out.println("Offer added successfully!" + "\n" + offer + "Offer ID:" + offer.getId());}
+                    catch (BusinessLogicException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case "3":
@@ -365,65 +369,37 @@ public class AdminUI {
     private void addAdmin(Scanner scanner) {
         try {
             System.out.print("Enter Admin Age: ");
-            String ageInput = scanner.nextLine().trim();
-            if (ageInput.isEmpty()) {
-                System.out.println("Age cannot be empty.");
-                return;
-            }
-            int age = Integer.parseInt(ageInput);
-
-            if (age < 0) {
-                System.out.println("Age cannot be negative.");
-                return;
-            }
+            int age = Integer.parseInt(scanner.nextLine().trim());
 
             System.out.print("Enter Admin Name: ");
             String name = scanner.nextLine().trim();
-            if (name.isEmpty()) {
-                System.out.println("Name cannot be empty.");
-                return;
-            }
 
-            if (name.matches(".*\\d.*"))
-            {
-                System.out.println("Name cannot contain digits.");
-                return;
-            }
+            System.out.print("Enter Admin Email: ");
+            String email = scanner.nextLine().trim();
+
+            System.out.print("Enter Admin Password: ");
+            String password = scanner.nextLine().trim();
 
             System.out.print("Enter Admin Role (Manager/ProductManager/ClientManager): ");
             String roleInput = scanner.nextLine().trim();
-            if (roleInput.isEmpty()) {
-                System.out.println("Role cannot be empty.");
-                return;
-            }
+            Role role = Role.valueOf(roleInput); // Assuming role input is valid
 
-            Role role;
-            if ("Manager".equalsIgnoreCase(roleInput)) {
-                role = Role.Manager;
-            } else if ("ProductManager".equalsIgnoreCase(roleInput)) {
-                role = Role.ProductManager;
-            } else if ("ClientManager".equalsIgnoreCase(roleInput)) {
-                role = Role.ClientManager;
-            } else {
-                System.out.println("Invalid role. Please enter one of: Manager, ProductManager, ClientManager.");
-                return;
-            }
+            // Create Admin object
+            Admin admin = new Admin(age, name, role,email, password);
 
-            // Create a new Admin and add it using the controller
-            Admin admin = new Admin(age, name, role);
+            // Call the service layer to add the admin
             controller.addAdmin(admin);
-          //  System.out.println("Admin added successfully!");
+            System.out.println("Admin added successfully!");
 
         } catch (NumberFormatException e) {
             System.out.println("Invalid input. Please enter a valid number for age.");
         } catch (ValidationException e) {
             System.out.println("Validation Error: " + e.getMessage());
-        } catch (BusinessLogicException e) {
-            System.out.println("Business Logic Error: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
 
     /**
      * Adds a new admin to the system by prompting the user for necessary details such as ID, age, name, and role.
@@ -564,58 +540,40 @@ public class AdminUI {
 
     private void addClient(Scanner scanner) {
         try {
-            // Prompt and validate Client ID
-//            System.out.print("Enter Client ID: ");
-//            String idInput = scanner.nextLine().trim();
-//            if (idInput.isEmpty()) {
-//                System.out.println("Client ID cannot be empty.");
-//                return;
-//            }
-//            int id = Integer.parseInt(idInput);
-
-            // Prompt and validate Age
+            // Collect user inputs
             System.out.print("Enter Age: ");
-            String ageInput = scanner.nextLine().trim();
-            if (ageInput.isEmpty()) {
-                System.out.println("Age cannot be empty.");
-                return;
-            }
-            int age = Integer.parseInt(ageInput);
-            if (age <= 0) {
-                System.out.println("Age must be a positive number.");
-                return;
-            }
+            int age = Integer.parseInt(scanner.nextLine().trim());
 
-            // Prompt and validate Name
             System.out.print("Enter Name: ");
             String name = scanner.nextLine().trim();
-            if (name.isEmpty()) {
-                System.out.println("Name cannot be empty.");
-                return;
-            }
-            if (name.matches(".*\\d.*"))
-            {
-                System.out.println("Name cannot contain digits.");
-                return;
-            }
 
-            // Create and add the client
-            Client client = new Client(age, name); // Create Client object
-            controller.addClient(client);         // Add client using the controller
+            System.out.print("Enter Email: ");
+            String email = scanner.nextLine().trim();
 
-            // Display success message
-            System.out.println("Client added successfully! Client's ID: " + client.getId());
+            System.out.print("Enter Password: ");
+            String password = scanner.nextLine().trim();
 
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid input! Please enter a valid numeric value for ID and Age.");
+            // Create Client object
+            Client client = new Client(age, name, email, password);
+
+            // Pass Client to the controller
+            controller.addClient(client);
+
+            // Success message
+            System.out.println("Client added successfully!");
+
         } catch (ValidationException e) {
             System.out.println("Validation Error: " + e.getMessage());
         } catch (BusinessLogicException e) {
             System.out.println("Business Logic Error: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input! Please enter a valid number for age.");
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
         }
     }
+
+
 
 
     /**

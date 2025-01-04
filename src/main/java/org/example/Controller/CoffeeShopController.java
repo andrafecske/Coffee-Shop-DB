@@ -37,7 +37,7 @@ public class CoffeeShopController {
             coffeeShopService.addAdmin(admin);
         }
         catch (ValidationException e) {
-            System.out.println(e.getMessage());
+            throw e;
         }
 
         System.out.println("Admin added successfully");
@@ -87,6 +87,10 @@ public class CoffeeShopController {
      */
     public Admin getAdminById(Integer id) {
         return coffeeShopService.getAdminById(id);
+    }
+
+    public Admin getAdminByEmail(String email) {
+        return coffeeShopService.getAdminByEmail(email);
     }
 
 
@@ -141,11 +145,9 @@ public class CoffeeShopController {
         try {
             coffeeShopService.addClient(client);
         } catch (ValidationException e) {
-            System.out.println("Validation Error: " + e.getMessage());
+            throw e; // Rethrow if you want higher layers to handle this further.
         } catch (BusinessLogicException e) {
-            System.out.println("Business Logic Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage());
+            throw e;
         }
     }
 
@@ -178,6 +180,10 @@ public class CoffeeShopController {
         return coffeeShopService.getClientById(id); // Assumes this method exists in ClientService
     }
 
+
+    public Client getClientByEmail(String email){
+        return coffeeShopService.getClientByEmail(email);
+    }
     /**
      * Adds points to a client's account.
      *

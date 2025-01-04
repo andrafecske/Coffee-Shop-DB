@@ -19,6 +19,7 @@ public class Admin extends Person {
     private Role role;
 
 
+
     /**
      * Constructs a new {@code Admin} with the specified ID, age, name, and role.
      *
@@ -26,15 +27,14 @@ public class Admin extends Person {
      * @param name the name of the administrator
      * @param role the role assigned to the administrator
      */
-    public Admin(int age, String name, Role role) {
-        super(age, name);
+    public Admin(int age, String name, Role role, String email, String password) {
+        super(age, name, email, password);
         this.role = role;
     }
 
-    public Admin(int age, String name, Role role, Integer ID) {
+    public Admin(int age, String name, Role role) {
         super(age, name);
         this.role = role;
-        this.ID = ID;
     }
 
 
