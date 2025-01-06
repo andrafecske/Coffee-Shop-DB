@@ -83,6 +83,7 @@ This project is a **Coffee Shop Loyalty Program** designed to manage customer lo
 - Online ordering system to expand functionality.
 - Advanced analytics for admin dashboards.
 
-<img width="399" alt="image" src="https://github.com/user-attachments/assets/ba1f0e35-aa0e-4d9b-a6f8-3f7a07c7ce2e" />
+<img width="369" alt="image" src="https://github.com/user-attachments/assets/fe2bdb27-c814-4c31-8ba1-c638c11b5892" />
+
 
 
