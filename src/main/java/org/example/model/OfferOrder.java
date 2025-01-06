@@ -107,7 +107,7 @@ public class OfferOrder implements HasID {
 
     @Override
     public void setId(int andIncrement) {
-        this.ID += andIncrement;
+        this.ID = andIncrement;
     }
 }
 

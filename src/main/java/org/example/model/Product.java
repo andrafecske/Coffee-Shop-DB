@@ -131,7 +131,7 @@ public class Product implements HasID {
 
     @Override
     public void setId(int andIncrement) {
-        this.ID+=andIncrement;
+        this.ID = andIncrement;
     }
 
     public String toStringPretty(){

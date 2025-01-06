@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.example.model.Client;
 import org.example.model.HasID;
 
 /**
@@ -27,8 +28,20 @@ public class InMemoryRepository <T extends HasID> implements IRepository<T> {
     @Override
     public void create(T obj) {
 
-        if (obj.getId() == null) {
-            obj.setId(idCounter.getAndIncrement()); // Automatically assign a new ID
+        if(obj.getId()==null){
+            //we generate an id based on the number of entries from the file
+            List<T> list = getAll();
+            if(list.isEmpty()){
+                obj.setId(1);
+            }
+            else{
+
+                obj.setId(list.size() + 1);
+            }
+        }
+
+        if(obj.getClass().equals(Client.class)){
+            ((Client) obj).getCard().setId(obj.getId());
         }
 
         map.putIfAbsent(obj.getId(), obj);

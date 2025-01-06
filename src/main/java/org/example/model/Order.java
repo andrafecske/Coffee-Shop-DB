@@ -197,8 +197,8 @@ public class Order implements HasID {
     }
 
     @Override
-    public void setId(int andIncrement) {
-        this.ID += andIncrement;
+    public void setId(int id) {
+        this.ID = id;
     }
 
     /**
