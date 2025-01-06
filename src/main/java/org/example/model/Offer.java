@@ -131,9 +131,9 @@ public class Offer implements HasID {
             productsString.append("No products available");
         }
 
-        return "offer name " + name + "\n" +
+        return "offer name: " + name + "\n" +
                 "products: \n" + productsString + "\n" +
-                "pointCost = " + pointCost + "\n";
+                "pointCost:" + pointCost + "\n";
     }
 
 

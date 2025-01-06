@@ -846,7 +846,6 @@ public class CoffeeShopController {
      *
      * @param offerId  the ID of the offer being ordered.
      * @param clientId the ID of the client placing the order.
-     * @return
      */
 
     public void addOfferOrder(Integer offerId, Integer clientId){
@@ -855,38 +854,6 @@ public class CoffeeShopController {
         removePoints(clientId, offer.getPointCost());
     }
 
-//    public void addOfferOrder(Integer offerId, Integer clientId) {
-//        try {
-//            Offer offer = getOfferById(offerId);
-//
-//            if (offer == null) {
-//                throw new EntityNotFoundException("Offer not found with ID: " + offerId, null);
-//            }
-//
-//            if (clientId == null) {
-//                throw new ValidationException("Client ID cannot be null", null);
-//            }
-//
-////            // Handle points validation explicitly through logic
-////            if (coffeeShopService.hasEnoughPoints(clientId, offer.getPointCost())) {
-////                return coffeeShopService.addOfferOrder(offerId, clientId);
-////            } else {
-////                throw new BusinessLogicException("Client does not have enough points to redeem the offer.", null);
-////            }
-//
-//        } catch (ValidationException e) {
-//            System.out.println("Validation Error: " + e.getMessage());
-//        } catch (EntityNotFoundException e) {
-//            System.out.println("Entity Not Found Error: " + e.getMessage());
-//        } catch (BusinessLogicException e) {
-//            System.out.println("Business Logic Error: " + e.getMessage());
-//        } catch (DataBaseException e) {
-//            System.out.println("Database Error: " + e.getMessage());
-//        } catch (Exception e) {
-//            System.out.println("An unexpected error occurred: " + e.getMessage());
-//        }
-//
-//    }
 
 
 }
