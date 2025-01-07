@@ -64,24 +64,6 @@ public class CoffeeShopService {
     }
 
 
-    private boolean isAdminDuplicate(Admin ad) {
-        if (ad== null || ad.getEmail() == null) {
-            throw new ValidationException("Client or client email cannot be null.", null);
-        }
-
-        // Check if email exists in Admin list
-        boolean existsInAdmins = adminRepo.getAll().stream()
-                .anyMatch(admin -> ad.getEmail().equalsIgnoreCase(admin.getEmail()));
-
-        // Check if email exists in Client list
-        boolean existsInClients = clientRepo.getAll().stream()
-                .anyMatch(existingClient -> ad.getEmail().equalsIgnoreCase(existingClient.getEmail()));
-
-        return existsInAdmins || existsInClients;
-    }
-
-
-
     /**
      * Retrieves all admins from the repository.
      *
