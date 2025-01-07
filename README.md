@@ -17,7 +17,7 @@ This project is a **Coffee Shop Loyalty Program** designed to manage customer lo
 
 ### **Admin Functionality**
 - **User Management:** Add and manage administrators and clients.
-- **Product Management:** Handle food and coffee inventory, including attributes like allergens, organic status, and customization options.
+- **Product Management:** Handle food and coffee inventory.
 - **Order Oversight:** View all client orders placed in the system.
 - **Offer Management:** Create and manage offers redeemable by clients.
 - **Role-Based Access:** Different admin roles like Manager, Product Manager, and Client Manager have specific permissions.
@@ -27,11 +27,10 @@ This project is a **Coffee Shop Loyalty Program** designed to manage customer lo
 ### **Points System**
 - Points accumulate based on the total value of client purchases.
 - Clients can use accumulated points to claim offers.
-- Loyalty cards have a point limit, preventing further accumulation once the limit is reached.
 
 ### **Product Customization**
-- **Coffee Items:** Attributes include caffeine content, milk type, and extra options. Prices adjust for additional customization.
-- **Food Items:** Attributes include type, allergen information, and whether the item is organic.
+- **Coffee Items:** Attributes include caffeine content, milk type.
+- **Food Items:** Attributes include type.
 
 ### **Order Management**
 - Clients can add, update, and delete orders.
@@ -80,8 +79,6 @@ This project is a **Coffee Shop Loyalty Program** designed to manage customer lo
 
 ## 🎯 Future Enhancements
 - Integration with a GUI for improved user experience.
-- Online ordering system to expand functionality.
-- Advanced analytics for admin dashboards.
 
 <img width="369" alt="image" src="https://github.com/user-attachments/assets/fe2bdb27-c814-4c31-8ba1-c638c11b5892" />
 
