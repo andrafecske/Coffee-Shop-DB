@@ -2,6 +2,7 @@ package org.example.Presentation;
 
 import org.example.Controller.CoffeeShopController;
 import org.example.Exceptions.BusinessLogicException;
+import org.example.Exceptions.DataBaseException;
 import org.example.Exceptions.ValidationException;
 import org.example.Utils.FoodType;
 import org.example.Utils.MilkType;
@@ -327,21 +328,39 @@ public class AdminUI {
                     break;
 
                 case "2":
-                    List<Integer> foods = offerFood(scanner);
-                    System.out.println(foods);
-                    List<Integer> coffees = offerCoffee(scanner);
-                    System.out.println(coffees);
-                    System.out.println("How many points does this offer cost? ");
-                    int points = Integer.parseInt(scanner.nextLine());
-                    System.out.println("What is the offer's name?");
-                    String name = scanner.nextLine();
-                    try{
-                    Offer offer = controller.addOffer(foods, coffees, points, name);
-                    System.out.println("Offer added successfully!" + "\n" + offer + "Offer ID:" + offer.getId());}
-                    catch (BusinessLogicException e) {
-                        System.out.println(e.getMessage());
+                    try {
+                        // Collect inputs from the user
+                        List<Integer> foods = offerFood(scanner);
+                        List<Integer> coffees = offerCoffee(scanner);
+
+                        System.out.println("How many points does this offer cost?");
+                        int points = Integer.parseInt(scanner.nextLine());
+
+                        System.out.println("What is the offer's name?");
+                        String name = scanner.nextLine();
+
+                        // Call the controller to add the offer
+                        Offer offer = controller.addOffer(foods, coffees, points, name);
+
+                        if (offer != null) {
+                            // Success case
+                            System.out.println("Offer added successfully!" + "\n" + offer + " Offer ID: " + offer.getId());
+                        }
+                    } catch (ValidationException e) {
+                        System.out.println("Validation Error: " + e.getMessage());
+                    } catch (BusinessLogicException e) {
+                        System.out.println("Business Logic Error: " + e.getMessage());
+                    } catch (DataBaseException e) {
+                        System.out.println("Database Error: " + e.getMessage());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input for points. Please enter a valid integer.");
+                    } catch (Exception e) {
+                        System.out.println("An unexpected error occurred: " + e.getMessage());
                     }
+
+                    // Continue execution
                     break;
+
 
                 case "3":
                     System.out.println("Current active offers: ");

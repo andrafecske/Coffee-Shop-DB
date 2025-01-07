@@ -1,6 +1,8 @@
 package org.example.Presentation;
 
 import org.example.Controller.CoffeeShopController;
+import org.example.Exceptions.BusinessLogicException;
+import org.example.Exceptions.EntityNotFoundException;
 import org.example.Utils.FoodType;
 import org.example.model.Coffee;
 import org.example.model.Food;
@@ -108,9 +110,17 @@ public class ClientUI {
                         System.out.println("Offer not found!");
                         break;
                     }
-                    coffeeShopController.addOfferOrder(offerID, id);
-                    System.out.println("Order added successfully!");
-                    viewPoints();
+                    try {
+                        coffeeShopController.addOfferOrder(offerID, id);
+                        System.out.println("Order added successfully!");
+                        viewPoints();
+                    } catch(BusinessLogicException e){
+                        System.out.println(e.getMessage());
+                    }
+                    catch (EntityNotFoundException e){
+                        System.out.println(e.getMessage());
+                    }
+
                     break;
 
                 case"7":

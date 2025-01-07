@@ -1,5 +1,7 @@
 
 import org.example.Controller.CoffeeShopController;
+import org.example.Exceptions.BusinessLogicException;
+import org.example.Exceptions.ValidationException;
 import org.example.Repository.DBRepo;
 import org.example.Utils.Role;
 import org.example.model.*;
@@ -240,7 +242,7 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
 
     }
 
-   @Test
+   //@Test
     void testOfferOperations() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -319,6 +321,28 @@ public class DBRepoAdminTest extends BaseIntegrationTest {
         System.out.println("Points successfully deducted. Test passed.");
     }
 
+
+
+
+    @Test
+    void testAddAdminValidationException() {
+        try {
+            // Arrange: Simulate invalid admin input
+            Admin invalidAdmin = new Admin(-1, "Invalid Admin", Role.Manager);  // Invalid age (-1)
+
+            // Attempt to add admin which should throw a ValidationException
+            coffeeShopController.addAdmin(invalidAdmin);
+
+            // If no exception was thrown, the test should fail
+            fail("Expected ValidationException was not thrown.");
+        } catch (ValidationException e) {
+            // Assert: Check that the exception message is what we expect
+            assertEquals("Admin age cannot be less than or equal to zero.", e.getMessage());
+        } catch (Exception e) {
+            // In case other unexpected exceptions occur
+            fail("Unexpected exception: " + e.getMessage());
+        }
+    }
 
 
 

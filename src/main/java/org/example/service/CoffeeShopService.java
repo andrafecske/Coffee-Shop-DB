@@ -797,15 +797,10 @@ public class CoffeeShopService {
         }
     }
 
-    public boolean existsName(String offerName){
-        List<Offer> offers = offerRepo.getAll();
-        for (Offer offer : offers) {
-            if (offer.getName().equals(offerName)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean existsName(String name) {
+        return offerRepo.getAll().stream().anyMatch(offer -> offer.getName().equalsIgnoreCase(name));
     }
+
 
     public boolean hasEnoughPoints(Integer clientId, int pointCost) {
         Client client = getClientById(clientId);

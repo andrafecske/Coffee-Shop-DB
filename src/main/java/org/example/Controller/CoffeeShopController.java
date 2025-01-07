@@ -692,7 +692,6 @@ public class CoffeeShopController {
             Offer offer = coffeeShopService.addOffer(foodIds, coffeeIds, pointCost, name);
             System.out.println("Offer added successfully: " + offer);
             return offer;
-
         } catch (ValidationException e) {
             System.out.println("Validation Error: " + e.getMessage());
         } catch (BusinessLogicException e) {
@@ -702,8 +701,11 @@ public class CoffeeShopController {
         } catch (Exception e) {
             System.out.println("An unexpected error occurred: " + e.getMessage());
         }
-        return null; // Return null in case of failure
+
+        // Return null in case of failure
+        return null;
     }
+
 
 
     /**
